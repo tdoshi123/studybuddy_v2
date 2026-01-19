@@ -34,6 +34,12 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
   - Recent announcements
   - Upcoming work
 
+### Bus Tracking
+- Real-time bus status with on-time indicators
+- Upcoming stops with estimated arrival times
+- Bus details (driver, capacity, your stop)
+- Weather and delay alerts
+
 ### Additional Pages (In Progress)
 - Inbox for messages
 - Grades overview
@@ -47,6 +53,7 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 - [x] Sidebar navigation system
 - [x] Course list and detail pages
 - [x] To-Do list component
+- [x] Bus tracking page
 - [ ] Complete all placeholder pages
 
 ### Phase 2: Backend Integration
@@ -67,6 +74,7 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 - [ ] Discussion boards per class
 - [ ] Progress reports and analytics
 - [ ] Parent portal with student linking
+- [ ] Live GPS bus tracking with map integration
 
 ### Phase 5: Polish & Launch
 - [ ] Mobile responsive optimization
@@ -129,9 +137,10 @@ studybuddy/
 │   ├── (dashboard)/         # Main app pages
 │   │   ├── dashboard/       # Home dashboard
 │   │   ├── courses/         # Course list and detail pages
-│   │   ├── inbox/           # Messages
-│   │   ├── grades/          # Grade overview
 │   │   ├── calendar/        # Calendar view
+│   │   ├── grades/          # Grade overview
+│   │   ├── bus/             # Bus tracking
+│   │   ├── inbox/           # Messages
 │   │   └── account/         # User settings
 │   ├── globals.css          # Global styles
 │   ├── layout.tsx           # Root layout with sidebar

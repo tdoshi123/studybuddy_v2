@@ -1,9 +1,10 @@
 import {
   Home,
   BookOpen,
-  Mail,
-  BarChart3,
   Calendar,
+  BarChart3,
+  Bus,
+  Mail,
   User,
 } from "lucide-react";
 import { NavItemConfig } from "@/lib/types/navigation";
@@ -24,10 +25,10 @@ export const NAV_ITEMS: NavItemConfig[] = [
     position: "top",
   },
   {
-    id: "inbox",
-    label: "Inbox",
-    icon: Mail,
-    href: "/inbox",
+    id: "calendar",
+    label: "Calendar",
+    icon: Calendar,
+    href: "/calendar",
     position: "top",
   },
   {
@@ -38,12 +39,18 @@ export const NAV_ITEMS: NavItemConfig[] = [
     position: "top",
   },
   {
-    id: "calendar",
-    label: "Calendar",
-    icon: Calendar,
-    href: "/calendar",
+    id: "bus",
+    label: "Bus",
+    icon: Bus,
+    href: "/bus",
     position: "top",
-    // TODO: Optional feature - can be enabled later
+  },
+  {
+    id: "inbox",
+    label: "Inbox",
+    icon: Mail,
+    href: "/inbox",
+    position: "top",
   },
   {
     id: "account",
@@ -60,4 +67,3 @@ export const SIDEBAR_CONFIG = {
   primaryBg: "#6E8CB9",
   secondaryBg: "#5F7AA3",
 } as const;
-
