@@ -17,22 +17,26 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 ## ✨ Current Features
 
 ### Dashboard
-- Course cards displaying enrolled classes with quick action icons
+- Course cards displaying enrolled classes (clickable to navigate to class)
 - To-Do list showing upcoming assignments and quizzes
 - Clean, modern UI inspired by popular LMS platforms
 
 ### Navigation
 - Fixed primary sidebar (72px) with icon-based navigation
-- Secondary overlay sidebar for course navigation
+- Sidebar items: Dashboard, Courses, Calendar, Grades, Bus, Inbox, Account
+- Secondary overlay sidebar for course selection (appears when Courses is clicked)
 - Smooth animations powered by Framer Motion
 
-### Courses
-- List view of all enrolled classes
-- Individual course pages with:
-  - Course header with teacher info
-  - Quick action buttons (Announcements, Assignments, Quizzes, etc.)
-  - Recent announcements
-  - Upcoming work
+### Course Pages
+- **Course List**: View all enrolled classes with teacher info, schedule, and room
+- **Course Layout**: Shared header and navigation across all course subpages
+- **Course Home**: Recent announcements and upcoming work
+- **Course Content**: 
+  - Sidebar navigation with topics (Syllabus, Course Schedule, Table of Contents, etc.)
+  - Document viewer for syllabus and course materials
+  - Organized content by modules/units
+- **Quick Actions**: Home, Content, Grades, Classlist, Course Tools
+- **Course Tools Dropdown**: Announcements, Assignments, Attendance, Discussions, Groups, Quizzes, Surveys
 
 ### Bus Tracking
 - Real-time bus status with on-time indicators
@@ -52,6 +56,7 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 - [x] Dashboard with course cards
 - [x] Sidebar navigation system
 - [x] Course list and detail pages
+- [x] Course content page with sidebar navigation
 - [x] To-Do list component
 - [x] Bus tracking page
 - [ ] Complete all placeholder pages
@@ -137,6 +142,11 @@ studybuddy/
 │   ├── (dashboard)/         # Main app pages
 │   │   ├── dashboard/       # Home dashboard
 │   │   ├── courses/         # Course list and detail pages
+│   │   │   ├── page.tsx     # All courses list
+│   │   │   └── [id]/        # Individual course
+│   │   │       ├── layout.tsx   # Course layout with nav
+│   │   │       ├── page.tsx     # Course home
+│   │   │       └── content/     # Course content page
 │   │   ├── calendar/        # Calendar view
 │   │   ├── grades/          # Grade overview
 │   │   ├── bus/             # Bus tracking
@@ -150,7 +160,7 @@ studybuddy/
 │   ├── navigation/          # Sidebar components
 │   └── ui/                  # Reusable UI components
 ├── lib/
-│   ├── constants/           # App constants (nav items, config)
+│   ├── constants/           # App constants (nav items, courses, config)
 │   ├── types/               # TypeScript type definitions
 │   └── utils.ts             # Utility functions
 └── public/                  # Static assets
@@ -177,4 +187,3 @@ For questions or suggestions, please open an issue on this repository.
 ---
 
 **StudyBuddy** — For Students. Built by Students 📚
-

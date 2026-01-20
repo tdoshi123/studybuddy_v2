@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { MoreVertical, MessageSquare, FileText, Bell, Folder, ClipboardList, Circle } from "lucide-react";
 
 export default function DashboardPage() {
@@ -235,8 +236,8 @@ const MOCK_COURSES: Course[] = [
 function CourseCard({ course }: { course: Course }) {
   return (
     <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-      {/* Course Image */}
-      <div className="relative h-36 overflow-hidden">
+      {/* Course Image - Clickable */}
+      <Link href={`/courses/${course.id}`} className="block relative h-36 overflow-hidden">
         <img
           src={course.image}
           alt={course.name}
@@ -246,7 +247,10 @@ function CourseCard({ course }: { course: Course }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
         
         {/* Menu button */}
-        <button className="absolute top-2 right-2 p-1 hover:bg-white/20 rounded transition-colors">
+        <button 
+          onClick={(e) => e.preventDefault()}
+          className="absolute top-2 right-2 p-1 hover:bg-white/20 rounded transition-colors z-10"
+        >
           <MoreVertical className="w-5 h-5 text-white" />
         </button>
 
@@ -256,17 +260,17 @@ function CourseCard({ course }: { course: Course }) {
             {course.name}
           </h3>
         </div>
-      </div>
+      </Link>
 
-      {/* Course Info */}
-      <div className="p-3">
+      {/* Course Info - Clickable */}
+      <Link href={`/courses/${course.id}`} className="block p-3">
         <p className="text-xs text-gray-600 dark:text-gray-400 truncate">
           {course.code}
         </p>
         <p className="text-xs text-gray-500 dark:text-gray-500">
           {course.term}
         </p>
-      </div>
+      </Link>
 
       {/* Action Icons */}
       <div className="px-3 pb-3 flex items-center gap-4">
