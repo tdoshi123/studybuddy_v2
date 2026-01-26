@@ -28,11 +28,6 @@ export default function CourseLayout({ children, params }: LayoutProps) {
       >
         <h1 className="text-2xl font-semibold">{course.name}</h1>
         <p className="mt-1 text-white/80">{course.teacher}</p>
-        <div className="mt-2 flex items-center gap-4 text-sm text-white/70">
-          <span>{course.period}</span>
-          <span>•</span>
-          <span>{course.room}</span>
-        </div>
       </div>
 
       {/* Quick Actions */}

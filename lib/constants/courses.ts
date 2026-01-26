@@ -8,6 +8,12 @@ export const COURSES: Record<string, { name: string; teacher: string; room: stri
   "6": { name: "Physical Education", teacher: "Coach Martinez", room: "Gymnasium", period: "Period 7 • 2:30 - 3:20 PM", color: "#2E8B8B" },
 };
 
+// Array format for dropdowns
+export const MOCK_COURSES = Object.entries(COURSES).map(([id, course]) => ({
+  id,
+  ...course,
+}));
+
 export function getCourse(id: string) {
   return COURSES[id] || COURSES["1"];
 }
