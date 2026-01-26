@@ -18,6 +18,7 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 
 ### Dashboard
 - Course cards displaying enrolled classes (clickable to navigate to class)
+- Responsive grid layout (2 columns on smaller screens, 3 on larger)
 - To-Do list showing upcoming assignments and quizzes
 - Clean, modern UI inspired by popular LMS platforms
 
@@ -28,13 +29,19 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 - Smooth animations powered by Framer Motion
 
 ### Course Pages
-- **Course List**: View all enrolled classes with teacher info, schedule, and room
+- **Course List**: View all enrolled classes with teacher info
 - **Course Layout**: Shared header and navigation across all course subpages
 - **Course Home**: Recent announcements and upcoming work
 - **Course Content**: 
   - Sidebar navigation with topics (Syllabus, Course Schedule, Table of Contents, etc.)
   - Document viewer for syllabus and course materials
   - Organized content by modules/units
+- **Course Grades**:
+  - Final calculated grade summary (Points and Grade percentage)
+  - Detailed grades table with Name, Due, Status, Points, Grade, Comments columns
+  - Status badges for LATE and MISSING assignments
+  - Comment icons for assignments with teacher feedback
+  - Full scrollable list of all assignments, quizzes, and exams
 - **Quick Actions**: Home, Content, Grades, Classlist, Course Tools
 - **Course Tools Dropdown**: Announcements, Assignments, Attendance, Discussions, Groups, Quizzes, Surveys
 
@@ -46,7 +53,7 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 
 ### Additional Pages (In Progress)
 - Inbox for messages
-- Grades overview
+- Grades overview (global)
 - Calendar view
 - Account settings
 
@@ -57,6 +64,7 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 - [x] Sidebar navigation system
 - [x] Course list and detail pages
 - [x] Course content page with sidebar navigation
+- [x] Course grades page with calculated grades
 - [x] To-Do list component
 - [x] Bus tracking page
 - [ ] Complete all placeholder pages
@@ -146,7 +154,8 @@ studybuddy/
 │   │   │   └── [id]/        # Individual course
 │   │   │       ├── layout.tsx   # Course layout with nav
 │   │   │       ├── page.tsx     # Course home
-│   │   │       └── content/     # Course content page
+│   │   │       ├── content/     # Course content page
+│   │   │       └── grades/      # Course grades page
 │   │   ├── calendar/        # Calendar view
 │   │   ├── grades/          # Grade overview
 │   │   ├── bus/             # Bus tracking
