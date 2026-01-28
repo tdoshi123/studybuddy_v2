@@ -42,6 +42,19 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
   - Status badges for LATE and MISSING assignments
   - Comment icons for assignments with teacher feedback
   - Full scrollable list of all assignments, quizzes, and exams
+- **Course Classlist**:
+  - View all students and instructors in the course
+  - Tabbed navigation (All, Students, Instructors)
+  - Search functionality to filter by name or email
+  - Multi-select with checkboxes for bulk actions
+  - Action buttons (Email, Instant Message, Print) with tooltip when no selection
+  - Email compose modal with:
+    - Recipients displayed as removable tags in To field
+    - Cc and Bcc fields
+    - Pre-filled subject line with course info
+    - Rich text editor toolbar (formatting options)
+    - Send and Cancel buttons
+  - **Note:** Email sending functionality is currently incomplete (UI only, no backend integration)
 - **Quick Actions**: Home, Content, Grades, Classlist, Course Tools
 - **Course Tools Dropdown**: Announcements, Assignments, Attendance, Discussions, Groups, Quizzes, Surveys
 
@@ -65,6 +78,7 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 - [x] Course list and detail pages
 - [x] Course content page with sidebar navigation
 - [x] Course grades page with calculated grades
+- [x] Course classlist page with email compose modal (UI only)
 - [x] To-Do list component
 - [x] Bus tracking page
 - [ ] Complete all placeholder pages
@@ -80,6 +94,7 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 - [ ] Grade book for teachers
 - [ ] Announcement/messaging system
 - [ ] Calendar with event management
+- [ ] Email integration for classlist (backend service needed)
 
 ### Phase 4: Advanced Features
 - [ ] Real-time notifications
@@ -155,7 +170,8 @@ studybuddy/
 │   │   │       ├── layout.tsx   # Course layout with nav
 │   │   │       ├── page.tsx     # Course home
 │   │   │       ├── content/     # Course content page
-│   │   │       └── grades/      # Course grades page
+│   │   │       ├── grades/      # Course grades page
+│   │   │       └── classlist/   # Course classlist page
 │   │   ├── calendar/        # Calendar view
 │   │   ├── grades/          # Grade overview
 │   │   ├── bus/             # Bus tracking
