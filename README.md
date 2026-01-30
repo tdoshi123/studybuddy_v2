@@ -55,6 +55,31 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
     - Rich text editor toolbar (formatting options)
     - Send and Cancel buttons
   - **Note:** Email sending functionality is currently incomplete (UI only, no backend integration)
+- **Course Announcements**:
+  - View all course announcements with expandable cards
+  - Filter options: All, Unread Only, Pinned Only (dropdown menu)
+  - Search functionality to filter announcements
+  - Visual indicators for Unread (blue badge) and Pinned (gray badge) status
+  - Markdown rendering support (bold, italic) in announcement content
+  - Posted date and author information
+- **Course Assignments**:
+  - List view of all course assignments
+  - Displays due date, points, completion status, and comments indicator
+  - Status badges: Submitted (green) or Not Submitted (gray)
+  - Clickable assignments link to detailed assignment pages
+- **Assignment Detail Page**:
+  - Assignment header with title, due date, and points
+  - Full instructions section
+  - Canvas-style tabbed submission interface:
+    - **File Upload**: Drag & drop area with file picker
+    - **Text Entry**: Rich text editor with formatting toolbar (bold, italic, underline, alignment, lists)
+    - **Website URL**: URL input field for link submissions
+    - **Google Doc**: Connect to Google Drive option (placeholder)
+    - **Media**: Record audio/video options (placeholder)
+  - Comments field for submission notes
+  - Cancel and Submit Assignment buttons
+  - Submission confirmation with resubmit option
+  - **Note:** Submission functionality is UI only, no backend integration yet
 - **Quick Actions**: Home, Content, Grades, Classlist, Course Tools
 - **Course Tools Dropdown**: Announcements, Assignments, Attendance, Discussions, Groups, Quizzes, Surveys
 
@@ -79,6 +104,9 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 - [x] Course content page with sidebar navigation
 - [x] Course grades page with calculated grades
 - [x] Course classlist page with email compose modal (UI only)
+- [x] Course announcements page with filtering and search
+- [x] Course assignments page with assignment list
+- [x] Assignment detail page with Canvas-style submission UI
 - [x] To-Do list component
 - [x] Bus tracking page
 - [ ] Complete all placeholder pages
@@ -90,9 +118,11 @@ StudyBuddy is being built to address the needs of K-12 schools looking for a cle
 - [ ] Role-based access control
 
 ### Phase 3: Core Functionality
-- [ ] Assignment submission system
+- [x] Assignment submission UI (Canvas-style tabbed interface)
+- [ ] Assignment submission backend integration
 - [ ] Grade book for teachers
-- [ ] Announcement/messaging system
+- [x] Announcement viewing system (UI complete)
+- [ ] Announcement creation/management for teachers
 - [ ] Calendar with event management
 - [ ] Email integration for classlist (backend service needed)
 
@@ -171,7 +201,11 @@ studybuddy/
 │   │   │       ├── page.tsx     # Course home
 │   │   │       ├── content/     # Course content page
 │   │   │       ├── grades/      # Course grades page
-│   │   │       └── classlist/   # Course classlist page
+│   │   │       ├── classlist/   # Course classlist page
+│   │   │       ├── announcements/  # Course announcements page
+│   │   │       └── assignments/    # Course assignments
+│   │   │           ├── page.tsx        # Assignments list
+│   │   │           └── [assignmentId]/ # Assignment detail page
 │   │   ├── calendar/        # Calendar view
 │   │   ├── grades/          # Grade overview
 │   │   ├── bus/             # Bus tracking

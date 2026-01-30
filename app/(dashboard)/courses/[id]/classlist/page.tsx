@@ -57,7 +57,9 @@ function EmailComposeModal({ isOpen, onClose, recipients }: EmailModalProps) {
   const [ccField, setCcField] = useState("");
   const [bccField, setBccField] = useState("");
   const [subject, setSubject] = useState("Spring 2026 CGT 41201-001 LEC >");
-  const [body, setBody] = useState("");
+  const editorRef = useRef<HTMLDivElement>(null);
+  const [fontSize, setFontSize] = useState("16px");
+  const [fontFamily, setFontFamily] = useState("Lato, sans-serif");
 
   useEffect(() => {
     setToRecipients(recipients);
@@ -67,14 +69,52 @@ function EmailComposeModal({ isOpen, onClose, recipients }: EmailModalProps) {
     setToRecipients((prev) => prev.filter((r) => r.id !== id));
   };
 
+  // Rich text formatting commands
+  const execCommand = (command: string, value?: string) => {
+    document.execCommand(command, false, value);
+    editorRef.current?.focus();
+  };
+
+  const handleFormatBlock = (tag: string) => {
+    execCommand("formatBlock", tag);
+  };
+
+  const handleFontSize = (size: string) => {
+    setFontSize(size);
+    // execCommand fontSize uses 1-7 scale, so we apply via style
+    if (editorRef.current) {
+      editorRef.current.style.fontSize = size;
+    }
+  };
+
+  const handleFontFamily = (font: string) => {
+    setFontFamily(font);
+    execCommand("fontName", font);
+  };
+
+  const handleLink = () => {
+    const url = prompt("Enter URL:");
+    if (url) {
+      execCommand("createLink", url);
+    }
+  };
+
+  const handleImage = () => {
+    const url = prompt("Enter image URL:");
+    if (url) {
+      execCommand("insertImage", url);
+    }
+  };
+
   const handleSend = () => {
+    const bodyContent = editorRef.current?.innerHTML || "";
     // Here you would integrate with an email service
     console.log("Sending email:", {
       to: toRecipients.map((r) => r.email),
       cc: ccField,
       bcc: bccField,
       subject,
-      body,
+      body: bodyContent,
     });
     alert("Email sent successfully!");
     onClose();
@@ -159,82 +199,156 @@ function EmailComposeModal({ isOpen, onClose, recipients }: EmailModalProps) {
           {/* Rich Text Toolbar */}
           <div className="border border-gray-300 rounded overflow-hidden">
             <div className="flex flex-wrap items-center gap-1 p-2 border-b border-gray-200 bg-gray-50 text-gray-600">
-              <select className="text-xs border border-gray-300 rounded px-2 py-1 bg-white text-gray-700">
-                <option>Paragraph</option>
-                <option>Heading 1</option>
-                <option>Heading 2</option>
-                <option>Heading 3</option>
+              <select 
+                className="text-xs border border-gray-300 rounded px-2 py-1 bg-white text-gray-700 cursor-pointer"
+                onChange={(e) => handleFormatBlock(e.target.value)}
+                defaultValue="p"
+              >
+                <option value="p">Paragraph</option>
+                <option value="h1">Heading 1</option>
+                <option value="h2">Heading 2</option>
+                <option value="h3">Heading 3</option>
               </select>
               <div className="w-px h-6 bg-gray-300 mx-1" />
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Bold">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Bold (Ctrl+B)"
+                onClick={() => execCommand("bold")}
+              >
                 <Bold className="w-4 h-4" />
               </button>
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Italic">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Italic (Ctrl+I)"
+                onClick={() => execCommand("italic")}
+              >
                 <Italic className="w-4 h-4" />
               </button>
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Underline">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Underline (Ctrl+U)"
+                onClick={() => execCommand("underline")}
+              >
                 <Underline className="w-4 h-4" />
               </button>
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Strikethrough">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Strikethrough"
+                onClick={() => execCommand("strikeThrough")}
+              >
                 <Strikethrough className="w-4 h-4" />
               </button>
               <div className="w-px h-6 bg-gray-300 mx-1" />
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Align Left">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Align Left"
+                onClick={() => execCommand("justifyLeft")}
+              >
                 <AlignLeft className="w-4 h-4" />
               </button>
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Align Center">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Align Center"
+                onClick={() => execCommand("justifyCenter")}
+              >
                 <AlignCenter className="w-4 h-4" />
               </button>
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Align Right">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Align Right"
+                onClick={() => execCommand("justifyRight")}
+              >
                 <AlignRight className="w-4 h-4" />
               </button>
               <div className="w-px h-6 bg-gray-300 mx-1" />
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Bulleted List">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Bulleted List"
+                onClick={() => execCommand("insertUnorderedList")}
+              >
                 <List className="w-4 h-4" />
               </button>
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Numbered List">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Numbered List"
+                onClick={() => execCommand("insertOrderedList")}
+              >
                 <ListOrdered className="w-4 h-4" />
               </button>
               <div className="w-px h-6 bg-gray-300 mx-1" />
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Link">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Insert Link"
+                onClick={handleLink}
+              >
                 <Link className="w-4 h-4" />
               </button>
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Image">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Insert Image"
+                onClick={handleImage}
+              >
                 <Image className="w-4 h-4" />
               </button>
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Code">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Code"
+                onClick={() => execCommand("formatBlock", "pre")}
+              >
                 <Code className="w-4 h-4" />
               </button>
               <div className="w-px h-6 bg-gray-300 mx-1" />
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Undo">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Undo (Ctrl+Z)"
+                onClick={() => execCommand("undo")}
+              >
                 <Undo className="w-4 h-4" />
               </button>
-              <button className="p-1.5 hover:bg-gray-200 rounded text-gray-600" title="Redo">
+              <button 
+                className="p-1.5 hover:bg-gray-200 rounded text-gray-600" 
+                title="Redo (Ctrl+Y)"
+                onClick={() => execCommand("redo")}
+              >
                 <Redo className="w-4 h-4" />
               </button>
             </div>
             <div className="flex items-center gap-1 p-2 border-b border-gray-200 bg-gray-50">
-              <select className="text-xs border border-gray-300 rounded px-2 py-1 bg-white text-gray-700">
-                <option>19px</option>
-                <option>12px</option>
-                <option>14px</option>
-                <option>16px</option>
-                <option>18px</option>
-                <option>24px</option>
+              <select 
+                className="text-xs border border-gray-300 rounded px-2 py-1 bg-white text-gray-700 cursor-pointer"
+                value={fontSize}
+                onChange={(e) => handleFontSize(e.target.value)}
+              >
+                <option value="12px">12px</option>
+                <option value="14px">14px</option>
+                <option value="16px">16px</option>
+                <option value="18px">18px</option>
+                <option value="20px">20px</option>
+                <option value="24px">24px</option>
               </select>
-              <select className="text-xs border border-gray-300 rounded px-2 py-1 bg-white text-gray-700 ml-2">
-                <option>Lato (Recommended)</option>
-                <option>Arial</option>
-                <option>Times New Roman</option>
-                <option>Georgia</option>
+              <select 
+                className="text-xs border border-gray-300 rounded px-2 py-1 bg-white text-gray-700 ml-2 cursor-pointer"
+                value={fontFamily}
+                onChange={(e) => handleFontFamily(e.target.value)}
+              >
+                <option value="Lato, sans-serif">Lato (Recommended)</option>
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="Times New Roman, serif">Times New Roman</option>
+                <option value="Georgia, serif">Georgia</option>
               </select>
             </div>
-            {/* Body Textarea */}
-            <textarea
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              className="w-full h-64 p-4 text-sm text-gray-800 focus:outline-none resize-none bg-white"
-              placeholder="Write your message here..."
+            {/* Rich Text Editor */}
+            <div
+              ref={editorRef}
+              contentEditable
+              className="w-full h-64 p-4 text-sm text-gray-800 focus:outline-none overflow-y-auto bg-white"
+              style={{ fontSize, fontFamily, minHeight: "256px" }}
+              data-placeholder="Write your message here..."
+              onFocus={(e) => {
+                if (e.currentTarget.textContent === "") {
+                  e.currentTarget.classList.remove("empty");
+                }
+              }}
             />
           </div>
         </div>
@@ -454,11 +568,11 @@ export default function ClasslistPage() {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg">
+      <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 px-6 py-2 overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-              <th className="w-12 px-4 py-3 text-left">
+            <tr className="border-b border-gray-200 dark:border-gray-700">
+              <th className="w-12 py-3 px-2 text-left">
                 <input
                   type="checkbox"
                   checked={selectedIds.length === filteredData.length && filteredData.length > 0}
@@ -466,30 +580,30 @@ export default function ClasslistPage() {
                   className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-[#0066cc] focus:ring-[#0066cc]"
                 />
               </th>
-              <th className="w-20 px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="w-16 py-3 px-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                 Image
               </th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="py-3 px-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                 <button className="flex items-center gap-1 hover:text-gray-900 dark:hover:text-white">
                   Name
                   <ChevronDown className="w-3 h-3 rotate-180" />
                 </button>
               </th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="py-3 px-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email
               </th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+              <th className="py-3 px-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300">
                 Role
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody>
             {filteredData.map((person) => (
               <tr
                 key={person.id}
-                className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
               >
-                <td className="px-4 py-4">
+                <td className="py-4 px-2">
                   <input
                     type="checkbox"
                     checked={selectedIds.includes(person.id)}
@@ -497,23 +611,23 @@ export default function ClasslistPage() {
                     className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-[#0066cc] focus:ring-[#0066cc]"
                   />
                 </td>
-                <td className="px-4 py-4">
+                <td className="py-4 px-2">
                   <div className="w-10 h-10 rounded bg-gray-100 dark:bg-gray-700 flex items-center justify-center border border-gray-200 dark:border-gray-600">
                     <User className="w-6 h-6 text-gray-400" />
                   </div>
                 </td>
-                <td className="px-4 py-4">
+                <td className="py-4 px-2">
                   <div className="flex items-center gap-2">
-                    <button className="text-[#0066cc] hover:text-[#004999] hover:underline text-sm font-medium transition-colors">
+                    <a href="#" className="text-[#6E8CB9] hover:underline text-sm">
                       {person.name}
-                    </button>
+                    </a>
                     <ChevronDown className="w-4 h-4 text-gray-400" />
                   </div>
                 </td>
-                <td className="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">
+                <td className="py-4 px-2 text-sm text-gray-600 dark:text-gray-400">
                   {person.email}
                 </td>
-                <td className="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">
+                <td className="py-4 px-2 text-sm text-gray-600 dark:text-gray-400">
                   {person.role}
                 </td>
               </tr>
