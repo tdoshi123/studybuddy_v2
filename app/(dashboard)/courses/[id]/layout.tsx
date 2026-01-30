@@ -4,18 +4,12 @@ import { useState, useRef, useEffect, use } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, FolderOpen, BarChart3, Users, Settings, Megaphone, FileText, ClipboardCheck, MessageCircle, UsersRound, HelpCircle, ClipboardList } from "lucide-react";
-import { getCourse, MOCK_COURSES } from "@/lib/constants/courses";
+import { getCourse } from "@/lib/constants/courses";
 import { cn } from "@/lib/utils";
 
 interface LayoutProps {
   children: React.ReactNode;
   params: Promise<{ id: string }>;
-}
-
-export function generateStaticParams() {
-  return MOCK_COURSES.map((course) => ({
-    id: course.id,
-  }));
 }
 
 export default function CourseLayout({ children, params }: LayoutProps) {

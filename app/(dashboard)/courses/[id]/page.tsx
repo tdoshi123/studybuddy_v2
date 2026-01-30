@@ -1,5 +1,13 @@
 // Course Home Page - shows recent announcements and upcoming work
 
+import { MOCK_COURSES } from "@/lib/constants/courses";
+
+export function generateStaticParams() {
+  return MOCK_COURSES.map((course) => ({
+    id: course.id,
+  }));
+}
+
 export default function CourseHomePage() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
