@@ -189,6 +189,21 @@ interface PageProps {
   params: Promise<{ id: string; assignmentId: string }>;
 }
 
+export function generateStaticParams() {
+  const assignmentIds = Object.keys(ASSIGNMENTS_DETAIL);
+  const courseIds = ["1", "2", "3", "4", "5", "6"];
+  
+  // Generate all combinations of course IDs and assignment IDs
+  const params = courseIds.flatMap((id) =>
+    assignmentIds.map((assignmentId) => ({
+      id,
+      assignmentId,
+    }))
+  );
+  
+  return params;
+}
+
 export default function AssignmentDetailPage({ params }: PageProps) {
   const { id: courseId, assignmentId } = use(params);
   const assignment = ASSIGNMENTS_DETAIL[assignmentId];
