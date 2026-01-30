@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'export',
+  basePath: '/studybuddy_v2',
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
