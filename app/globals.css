@@ -89,3 +89,8 @@ body {
   pointer-events: none;
 }
 
+/* Next.js dev tools portal positioning fix */
+nextjs-portal {
+  left: auto !important;
+  top: auto !important;
+}

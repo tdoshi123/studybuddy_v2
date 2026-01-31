@@ -13,7 +13,7 @@ interface NavItemProps {
 export function NavItem({ item }: NavItemProps) {
   const pathname = usePathname();
   const { toggleSecondarySidebar, closeSecondarySidebar, isSecondaryOpen } = useSidebar();
-  
+
   const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
   const isCourses = item.id === "courses";
   const Icon = item.icon;
@@ -45,18 +45,24 @@ export function NavItem({ item }: NavItemProps) {
       onClick={handleClick}
       className={cn(
         "group relative flex flex-col items-center justify-center w-full py-3 transition-all duration-200",
-        "hover:bg-white/10",
-        showAsActive && "bg-white"
+        "hover:bg-white/10 dark:hover:bg-white/5",
+        showAsActive && "bg-white/95 dark:bg-gray-900/80"
       )}
       aria-label={item.label}
       aria-current={showAsActive ? "page" : undefined}
     >
+      {/* Active indicator bar */}
+      {showAsActive && (
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-[#6E8CB9] dark:bg-[#7F9CCF] rounded-r-full" />
+      )}
+
       {/* Icon */}
       <Icon
         className={cn(
-          "w-6 h-6 text-white/80 transition-colors duration-200",
-          "group-hover:text-white",
-          showAsActive && "text-[#6E8CB9]"
+          "w-6 h-6 transition-colors duration-200",
+          showAsActive 
+            ? "text-[#6E8CB9] dark:text-[#7F9CCF]" 
+            : "text-white/80 dark:text-white/70 group-hover:text-white"
         )}
         strokeWidth={showAsActive ? 2.5 : 2}
       />
@@ -64,9 +70,10 @@ export function NavItem({ item }: NavItemProps) {
       {/* Label below icon */}
       <span
         className={cn(
-          "mt-1 text-[10px] font-medium text-white/80 transition-colors duration-200",
-          "group-hover:text-white",
-          showAsActive && "text-[#6E8CB9]"
+          "mt-1 text-[10px] font-medium transition-colors duration-200",
+          showAsActive 
+            ? "text-[#6E8CB9] dark:text-[#7F9CCF] font-semibold" 
+            : "text-white/80 dark:text-white/70 group-hover:text-white"
         )}
       >
         {item.label}

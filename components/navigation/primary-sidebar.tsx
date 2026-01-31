@@ -9,16 +9,15 @@ export function PrimarySidebar() {
 
   return (
     <aside
-      className="fixed left-0 top-0 h-screen flex flex-col z-50"
+      className="fixed left-0 top-0 h-screen flex flex-col z-50 bg-[#6E8CB9] dark:bg-[#4a5f7f] transition-colors duration-300"
       style={{
         width: SIDEBAR_CONFIG.primaryWidth,
-        backgroundColor: SIDEBAR_CONFIG.primaryBg,
       }}
     >
       {/* Logo / Brand */}
-      <div className="flex items-center justify-center h-16 border-b border-white/10">
-        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-          <span className="text-white font-bold text-lg">S</span>
+      <div className="flex items-center justify-center h-16 border-b border-white/10 dark:border-white/5">
+        <div className="w-10 h-10 rounded-xl bg-white/20 dark:bg-white/10 flex items-center justify-center ring-2 ring-white/30 dark:ring-white/20 transition-all duration-300">
+          <span className="text-white font-bold text-lg drop-shadow-sm">S</span>
         </div>
       </div>
 
@@ -30,7 +29,7 @@ export function PrimarySidebar() {
       </nav>
 
       {/* Bottom Navigation Items */}
-      <nav className="py-4 border-t border-white/10">
+      <nav className="py-4 border-t border-white/10 dark:border-white/5">
         {bottomItems.map((item) => (
           <NavItem key={item.id} item={item} />
         ))}
