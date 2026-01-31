@@ -1,11 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export', // Enable static export for GitHub Pages
-  basePath: '/studybuddy_v2',
-  trailingSlash: true,
+  // Removed static export to enable server-side features and database connections
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
   typescript: {
     ignoreBuildErrors: false,
