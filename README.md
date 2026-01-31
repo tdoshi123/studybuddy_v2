@@ -1,4 +1,4 @@
-# StudyBuddy
+# StudyBuddy 
 
 A modern Student Information System (SIS) designed specifically for K-12 students, teachers, and parents. StudyBuddy aims to simplify academic life by providing an intuitive platform to manage courses, assignments, grades, and communication—all in one place.
 
@@ -246,3 +246,5 @@ For questions or suggestions, please open an issue on this repository.
 ---
 
 **StudyBuddy** — For Students. Built by Students 📚
+
+testing
