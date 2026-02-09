@@ -9,7 +9,7 @@ export function PrimarySidebar() {
 
   return (
     <aside
-      className="fixed left-0 top-0 h-screen flex flex-col z-50"
+      className="hidden md:flex fixed left-0 top-0 h-screen flex-col z-50"
       style={{
         width: SIDEBAR_CONFIG.primaryWidth,
         backgroundColor: SIDEBAR_CONFIG.primaryBg,

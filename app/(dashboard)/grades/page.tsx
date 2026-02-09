@@ -466,7 +466,7 @@ export default function GradesPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Overall Average Card - Blue */}
         <div className="bg-[#3b82f6] rounded-xl p-5 text-white">
           <div className="flex items-center justify-between">
@@ -517,12 +517,12 @@ export default function GradesPage() {
       {/* Missing Assignments Alert */}
       {totalMissing > 0 && (
         <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-xl p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-0 sm:justify-between">
+            <div className="flex items-start gap-3 flex-1">
               <div className="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0">
                 <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <h3 className="text-sm font-semibold text-red-900 dark:text-red-100">
                   You have {totalMissing} missing assignment{totalMissing !== 1 ? 's' : ''}
                 </h3>
@@ -533,7 +533,7 @@ export default function GradesPage() {
             </div>
             <button
               onClick={() => setShowMissingAssignments(true)}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
+              className="w-full sm:w-auto px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0"
             >
               View Missing
             </button>
@@ -543,11 +543,11 @@ export default function GradesPage() {
 
       {/* Missing Assignments Modal */}
       {showMissingAssignments && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+        <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
+          <div className="bg-white dark:bg-gray-900 rounded-t-2xl sm:rounded-xl max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col">
             {/* Modal Header */}
-            <div className="p-6 border-b border-gray-200 dark:border-gray-800">
-              <div className="flex items-center justify-between">
+            <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-800">
+              <div className="flex items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
@@ -571,7 +571,7 @@ export default function GradesPage() {
             </div>
 
             {/* Modal Content */}
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
               <div className="space-y-4">
                 {missingAssignments.map(({ course, assignment }) => (
                   <div
@@ -653,14 +653,14 @@ export default function GradesPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-6 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+            <div className="p-4 sm:p-6 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:justify-between">
+                <p className="text-sm text-gray-600 dark:text-gray-400 text-center sm:text-left">
                   Contact your teachers about make-up work opportunities
                 </p>
                 <button
                   onClick={() => setShowMissingAssignments(false)}
-                  className="px-6 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg text-sm font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+                  className="w-full sm:w-auto px-6 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg text-sm font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
                 >
                   Close
                 </button>
@@ -671,8 +671,8 @@ export default function GradesPage() {
       )}
 
       {/* Tabs Navigation */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
-        <div className="flex gap-6">
+      <div className="border-b border-gray-200 dark:border-gray-700 -mx-4 sm:mx-0 px-4 sm:px-0 overflow-x-auto">
+        <div className="flex gap-4 sm:gap-6 min-w-max sm:min-w-0">
           <button
             onClick={() => setActiveTab("grades")}
             className={`pb-3 px-1 text-sm font-medium transition-colors relative ${activeTab === "grades"
@@ -707,7 +707,7 @@ export default function GradesPage() {
       {activeTab === "grades" && (
         <div className="space-y-6">
           {/* Search and Filters */}
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
             {/* Search */}
             <div className="flex-1 min-w-[200px] relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -735,7 +735,7 @@ export default function GradesPage() {
             </div>
 
             {/* Grade Filter Buttons */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 -mx-4 sm:mx-0 px-4 sm:px-0">
               {[
                 { value: "all" as GradeFilter, label: "All" },
                 { value: "a" as GradeFilter, label: "A's" },
@@ -771,17 +771,17 @@ export default function GradesPage() {
               >
                 {/* Course Header */}
                 <div
-                  className="flex items-center p-5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                  className="flex items-start sm:items-center p-4 sm:p-5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                   onClick={() => toggleExpand(course.id)}
                 >
                   {/* Color Bar */}
                   <div
-                    className="w-1 h-16 rounded-full mr-4"
+                    className="w-1 h-16 sm:h-16 rounded-full mr-3 sm:mr-4 flex-shrink-0"
                     style={{ backgroundColor: course.color }}
                   />
 
                   {/* Course Info */}
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         {course.name}
@@ -813,15 +813,15 @@ export default function GradesPage() {
                   </div>
 
                   {/* Grade Badge */}
-                  <div className="flex items-center gap-3">
-                    <div className={`flex flex-col items-center px-5 py-3 rounded-lg ${getGradeColor(course.grade)}`}>
-                      <span className="text-2xl font-bold">{course.grade}</span>
-                      <span className="text-sm mt-0.5">{course.percentage}%</span>
+                  <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <div className={`flex flex-col items-center px-3 sm:px-5 py-2 sm:py-3 rounded-lg ${getGradeColor(course.grade)}`}>
+                      <span className="text-xl sm:text-2xl font-bold">{course.grade}</span>
+                      <span className="text-xs sm:text-sm mt-0.5">{course.percentage}%</span>
                     </div>
                     {expandedCourse === course.id ? (
-                      <ChevronUp className="w-5 h-5 text-gray-400" />
+                      <ChevronUp className="w-5 h-5 text-gray-400 flex-shrink-0" />
                     ) : (
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
+                      <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
                     )}
                   </div>
                 </div>
@@ -853,7 +853,7 @@ export default function GradesPage() {
                       <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
                         Grading Breakdown
                       </h4>
-                      <div className="grid grid-cols-5 gap-3">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                         {[
                           { label: "Homework", value: course.gradingBreakdown.homework },
                           { label: "Quizzes", value: course.gradingBreakdown.quizzes },
@@ -892,10 +892,10 @@ export default function GradesPage() {
                                 : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
                               }`}
                           >
-                            <div className="flex items-start justify-between">
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className={`font-medium ${assignment.missing ? 'text-red-900 dark:text-red-100' : 'text-gray-900 dark:text-white'}`}>
+                            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                  <span className={`font-medium text-sm sm:text-base ${assignment.missing ? 'text-red-900 dark:text-red-100' : 'text-gray-900 dark:text-white'}`}>
                                     {assignment.name}
                                   </span>
                                   <span className={`px-2 py-0.5 rounded text-xs font-medium ${getTypeColor(assignment.type)}`}>
@@ -923,7 +923,7 @@ export default function GradesPage() {
                                   }`}>
                                   {assignment.score}/{assignment.maxScore}
                                 </span>
-                                <span className={`text-lg font-semibold min-w-[3rem] text-right ${assignment.missing
+                                <span className={`text-base sm:text-lg font-semibold min-w-[2.5rem] sm:min-w-[3rem] text-right ${assignment.missing
                                   ? 'text-red-600 dark:text-red-400'
                                   : 'text-gray-900 dark:text-white'
                                   }`}>
@@ -989,9 +989,9 @@ export default function GradesPage() {
             </div>
           </div>
 
-          <div className="p-5 space-y-6">
+          <div className="p-4 sm:p-5 space-y-6">
             {/* Current GPA & What-If GPA Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Current GPA */}
               <div className="bg-gradient-to-br from-[#6E8CB9] to-[#5a7399] rounded-xl p-5 text-white">
                 <p className="text-sm font-medium text-blue-100">Current GPA</p>
@@ -1041,7 +1041,7 @@ export default function GradesPage() {
 
             {/* What-If Scenarios by Course */}
             <div>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">What-If Scenarios</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -1378,7 +1378,7 @@ export default function GradesPage() {
               </div>
 
               {/* Insights */}
-              <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <TrendingUp className="w-4 h-4 text-emerald-600" />
