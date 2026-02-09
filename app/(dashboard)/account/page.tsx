@@ -71,33 +71,34 @@ export default function AccountPage() {
   const [highContrast, setHighContrast] = useState(false);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 pb-4">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
           Account Settings
         </h1>
-        <p className="mt-1 text-gray-600 dark:text-gray-400">
+        <p className="mt-1 text-sm sm:text-base text-gray-600 dark:text-gray-400">
           Manage your profile, notifications, and preferences
         </p>
       </div>
 
       {/* Tab Navigation */}
-      <div className="border-b border-gray-200 dark:border-gray-800">
-        <nav className="flex gap-8">
+      <div className="border-b border-gray-200 dark:border-gray-800 -mx-4 sm:mx-0 px-4 sm:px-0 overflow-x-auto hide-scrollbar">
+        <nav className="flex gap-4 sm:gap-8">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id
+                className={`flex items-center gap-1.5 sm:gap-2 pb-3 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap touch-manipulation ${activeTab === tab.id
                     ? "border-[#6E8CB9] text-[#6E8CB9]"
                     : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                   }`}
               >
-                <Icon className="w-4 h-4" />
-                {tab.label}
+                <Icon className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden xs:inline">{tab.label}</span>
+                <span className="xs:hidden text-[11px]">{tab.label.split(' ')[0]}</span>
               </button>
             );
           })}
