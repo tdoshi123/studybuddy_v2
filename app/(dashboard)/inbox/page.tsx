@@ -236,99 +236,99 @@ export default function InboxPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
             Inbox
           </h1>
-          <p className="mt-1 text-gray-600 dark:text-gray-400">
+          <p className="mt-1 text-sm sm:text-base text-gray-600 dark:text-gray-400">
             Messages, announcements, and notifications
           </p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-[#6E8CB9] text-white rounded-lg hover:bg-[#5F7AA3] transition-colors">
+        <button className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#6E8CB9] text-white rounded-lg hover:bg-[#5F7AA3] transition-colors text-sm touch-manipulation flex-shrink-0">
           <Send className="w-4 h-4" />
-          Compose
+          <span className="hidden sm:inline">Compose</span>
         </button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {/* Unread Announcements */}
-        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4 sm:p-5">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
               Unread Announcements
             </p>
-            <Megaphone className="w-5 h-5 text-gray-400" />
+            <Megaphone className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
           </div>
-          <p className="mt-2 text-4xl font-bold text-gray-900 dark:text-white">
+          <p className="mt-2 text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
             {unreadCounts.announcements + 2}
           </p>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             From school & teachers
           </p>
         </div>
 
         {/* Unread from Teachers */}
-        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4 sm:p-5">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
               Unread from Teachers
             </p>
-            <Users className="w-5 h-5 text-gray-400" />
+            <Users className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
           </div>
-          <p className="mt-2 text-4xl font-bold text-gray-900 dark:text-white">
+          <p className="mt-2 text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
             {unreadCounts.teachers}
           </p>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             Course updates & feedback
           </p>
         </div>
 
         {/* Unread from Students */}
-        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4 sm:p-5">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
               Unread from Students
             </p>
-            <MessageCircle className="w-5 h-5 text-gray-400" />
+            <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
           </div>
-          <p className="mt-2 text-4xl font-bold text-gray-900 dark:text-white">
+          <p className="mt-2 text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
             {unreadCounts.students + 1}
           </p>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             Messages from classmates
           </p>
         </div>
       </div>
 
       {/* Search and Filters */}
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="space-y-3">
         {/* Search */}
-        <div className="flex-1 min-w-[300px] relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Search messages, senders, or content..."
+            placeholder="Search messages..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#6E8CB9] focus:border-transparent"
+            className="w-full pl-9 sm:pl-10 pr-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#6E8CB9] focus:border-transparent"
           />
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-1">
           <button
             onClick={() => setFilter("all")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === "all"
-                ? "bg-[#6E8CB9] text-white"
-                : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-manipulation ${filter === "all"
+              ? "bg-[#6E8CB9] text-white"
+              : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
               }`}
           >
-            <Megaphone className="w-4 h-4" />
-            All
+            <Megaphone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span className="hidden sm:inline">All</span>
             <span className={`px-1.5 py-0.5 rounded-full text-xs ${filter === "all" ? "bg-white/20" : "bg-gray-100 dark:bg-gray-700"
               }`}>
               {counts.all}
@@ -337,13 +337,14 @@ export default function InboxPage() {
 
           <button
             onClick={() => setFilter("announcements")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === "announcements"
-                ? "bg-[#6E8CB9] text-white"
-                : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-manipulation ${filter === "announcements"
+              ? "bg-[#6E8CB9] text-white"
+              : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
               }`}
           >
-            <Send className="w-4 h-4" />
-            Announcements
+            <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span className="hidden sm:inline">Announcements</span>
+            <span className="sm:hidden">Annc.</span>
             <span className={`px-1.5 py-0.5 rounded-full text-xs ${filter === "announcements" ? "bg-white/20" : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
               }`}>
               {counts.announcements + 2}
@@ -352,12 +353,12 @@ export default function InboxPage() {
 
           <button
             onClick={() => setFilter("teachers")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === "teachers"
-                ? "bg-[#6E8CB9] text-white"
-                : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-manipulation ${filter === "teachers"
+              ? "bg-[#6E8CB9] text-white"
+              : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
               }`}
           >
-            <Users className="w-4 h-4" />
+            <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             Teachers
             <span className={`px-1.5 py-0.5 rounded-full text-xs ${filter === "teachers" ? "bg-white/20" : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
               }`}>
@@ -367,12 +368,12 @@ export default function InboxPage() {
 
           <button
             onClick={() => setFilter("students")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === "students"
-                ? "bg-[#6E8CB9] text-white"
-                : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap touch-manipulation ${filter === "students"
+              ? "bg-[#6E8CB9] text-white"
+              : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
               }`}
           >
-            <MessageCircle className="w-4 h-4" />
+            <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             Students
             <span className={`px-1.5 py-0.5 rounded-full text-xs ${filter === "students" ? "bg-white/20" : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
               }`}>
@@ -392,67 +393,67 @@ export default function InboxPage() {
               {/* Message Header (Collapsed View) */}
               <div
                 onClick={() => toggleMessageExpand(message.id)}
-                className={`flex items-start gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer transition-colors ${!message.isRead ? "bg-blue-50/30 dark:bg-blue-900/10" : ""
+                className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer transition-colors touch-manipulation ${!message.isRead ? "bg-blue-50/30 dark:bg-blue-900/10" : ""
                   }`}
               >
-                {/* Checkbox */}
+                {/* Checkbox - Hidden on mobile */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleMessageSelection(message.id);
                   }}
-                  className="flex-shrink-0 mt-1"
+                  className="hidden sm:block flex-shrink-0 mt-1"
                 >
                   <div
                     className={`w-5 h-5 rounded-full border-2 transition-colors ${selectedMessages.includes(message.id)
-                        ? "bg-[#6E8CB9] border-[#6E8CB9]"
-                        : "border-gray-300 dark:border-gray-600"
+                      ? "bg-[#6E8CB9] border-[#6E8CB9]"
+                      : "border-gray-300 dark:border-gray-600"
                       }`}
                   />
                 </button>
 
                 {/* Icon */}
-                <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${getIconBgColor(message.type)}`}>
+                <div className={`flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${getIconBgColor(message.type)}`}>
                   {getMessageIcon(message.type)}
                 </div>
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   {/* Sender Row */}
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className={`font-semibold ${!message.isRead ? "text-gray-900 dark:text-white" : "text-gray-700 dark:text-gray-300"}`}>
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                    <span className={`text-sm sm:text-base font-semibold truncate ${!message.isRead ? "text-gray-900 dark:text-white" : "text-gray-700 dark:text-gray-300"}`}>
                       {message.sender}
                     </span>
                     {message.role && (
-                      <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs rounded">
+                      <span className="px-1.5 sm:px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-[10px] sm:text-xs rounded">
                         {message.role}
                       </span>
                     )}
                     {message.course && (
-                      <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs rounded font-medium">
+                      <span className="px-1.5 sm:px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-[10px] sm:text-xs rounded font-medium">
                         {message.course}
                       </span>
                     )}
                   </div>
 
                   {/* Subject */}
-                  <p className={`mt-1 ${!message.isRead ? "font-semibold text-gray-900 dark:text-white" : "font-medium text-gray-700 dark:text-gray-300"}`}>
+                  <p className={`mt-1 text-sm sm:text-base line-clamp-1 ${!message.isRead ? "font-semibold text-gray-900 dark:text-white" : "font-medium text-gray-700 dark:text-gray-300"}`}>
                     {message.subject}
                   </p>
 
                   {/* Preview (only when collapsed) */}
                   {!isExpanded && (
-                    <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400 line-clamp-1">
+                    <p className="mt-0.5 text-xs sm:text-sm text-gray-500 dark:text-gray-400 line-clamp-1">
                       {message.preview}
                     </p>
                   )}
 
                   {/* Tags */}
-                  <div className="flex items-center gap-2 mt-2">
+                  <div className="flex items-center gap-1.5 sm:gap-2 mt-2 overflow-x-auto hide-scrollbar">
                     {message.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs rounded"
+                        className="px-1.5 sm:px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-[10px] sm:text-xs rounded whitespace-nowrap"
                       >
                         {tag}
                       </span>
@@ -461,19 +462,19 @@ export default function InboxPage() {
                 </div>
 
                 {/* Right Side - Time & Actions */}
-                <div className="flex-shrink-0 flex flex-col items-end gap-2">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                <div className="flex-shrink-0 flex flex-col items-end gap-1.5 sm:gap-2">
+                  <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
                     {message.time}
                   </span>
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-gray-400" />
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <Clock className="hidden sm:block w-4 h-4 text-gray-400" />
                     {message.hasAttachment && (
-                      <Paperclip className="w-4 h-4 text-gray-400" />
+                      <Paperclip className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
                     )}
                     <Star
-                      className={`w-4 h-4 ${message.isStarred
-                          ? "fill-amber-400 text-amber-400"
-                          : "text-gray-300 dark:text-gray-600"
+                      className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${message.isStarred
+                        ? "fill-amber-400 text-amber-400"
+                        : "text-gray-300 dark:text-gray-600"
                         }`}
                     />
                     {!message.isRead && (
@@ -490,34 +491,34 @@ export default function InboxPage() {
 
               {/* Expanded Message Content */}
               {isExpanded && (
-                <div className="px-4 pb-4 border-t border-gray-100 dark:border-gray-800">
+                <div className="px-3 sm:px-4 pb-3 sm:pb-4 border-t border-gray-100 dark:border-gray-800">
                   {/* Message Meta */}
-                  <div className="py-3 text-sm text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800">
+                  <div className="py-2 sm:py-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800">
                     {message.date}
                   </div>
 
                   {/* Full Message Content */}
-                  <div className="py-4 text-gray-700 dark:text-gray-300 text-sm leading-relaxed whitespace-pre-wrap">
+                  <div className="py-3 sm:py-4 text-gray-700 dark:text-gray-300 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">
                     {message.fullContent}
                   </div>
 
                   {/* Attachments */}
                   {message.attachments && message.attachments.length > 0 && (
-                    <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <div className="pt-3 sm:pt-4 border-t border-gray-100 dark:border-gray-800">
+                      <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Attachments ({message.attachments.length})
                       </p>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2">
                         {message.attachments.map((attachment, index) => (
                           <div
                             key={index}
-                            className="flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+                            className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer transition-colors touch-manipulation"
                           >
-                            <Paperclip className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                            <span className="text-sm text-gray-700 dark:text-gray-300">
+                            <Paperclip className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 truncate">
                               {attachment.name}
                             </span>
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                            <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
                               ({attachment.size})
                             </span>
                           </div>
@@ -527,22 +528,22 @@ export default function InboxPage() {
                   )}
 
                   {/* Action Buttons */}
-                  <div className="flex items-center gap-3 pt-4 border-t border-gray-100 dark:border-gray-800 mt-4">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-[#6E8CB9] text-white rounded-lg hover:bg-[#5F7AA3] transition-colors text-sm">
-                      <Reply className="w-4 h-4" />
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-3 sm:pt-4 border-t border-gray-100 dark:border-gray-800 mt-3 sm:mt-4">
+                    <button className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-[#6E8CB9] text-white rounded-lg hover:bg-[#5F7AA3] transition-colors text-xs sm:text-sm touch-manipulation">
+                      <Reply className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       Reply
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm">
-                      <Forward className="w-4 h-4" />
-                      Forward
+                    <button className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-xs sm:text-sm touch-manipulation">
+                      <Forward className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      <span className="hidden sm:inline">Forward</span>
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm">
-                      <Archive className="w-4 h-4" />
-                      Archive
+                    <button className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-xs sm:text-sm touch-manipulation">
+                      <Archive className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      <span className="hidden sm:inline">Archive</span>
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm ml-auto">
-                      <Trash2 className="w-4 h-4" />
-                      Delete
+                    <button className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-xs sm:text-sm sm:ml-auto touch-manipulation">
+                      <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      <span className="hidden sm:inline">Delete</span>
                     </button>
                   </div>
                 </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
   Send, Search, Users, User, MessageCircle, Paperclip, Smile,
   MoreVertical, Phone, Video, UserCircle, Plus, Settings,
-  Filter, Star, X, Edit2, Check, UserPlus, UserMinus
+  Filter, Star, X, Edit2, Check, UserPlus, UserMinus, ArrowLeft
 } from "lucide-react";
 
 type ConversationType = "class" | "dm" | "study-group" | "teacher";
@@ -650,6 +650,7 @@ export default function MessagesPage() {
   const [messageInput, setMessageInput] = useState("");
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [showChatOnMobile, setShowChatOnMobile] = useState(false);
 
   const activeConv = MOCK_CONVERSATIONS.find((c) => c.id === activeConversation);
   const messages = MOCK_MESSAGES[activeConversation] || [];
@@ -718,28 +719,28 @@ export default function MessagesPage() {
   };
 
   return (
-    <div className="h-[calc(100vh-8rem)] flex flex-col gap-4">
-      {/* Header with Stats */}
-      <div className="flex items-center justify-between">
+    <div className="h-[calc(100vh-8rem)] md:h-[calc(100vh-10rem)] flex flex-col gap-4">
+      {/* Header with Stats - Hide on mobile when chat is open */}
+      <div className={`flex items-center justify-between ${showChatOnMobile ? 'hidden md:flex' : 'flex'}`}>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Messages</h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Messages</h1>
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
             {counts.unread} unread • {counts.all} total conversations
           </p>
         </div>
         <button
           onClick={() => setShowCreateGroup(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#6E8CB9] text-white rounded-lg hover:bg-[#5F7AA3] transition-colors"
+          className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#6E8CB9] text-white rounded-lg hover:bg-[#5F7AA3] transition-colors text-sm touch-manipulation"
         >
           <Plus className="w-4 h-4" />
-          New Group
+          <span className="hidden sm:inline">New Group</span>
         </button>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex gap-4 min-h-0">
+      <div className="flex-1 flex gap-4 min-h-0 overflow-hidden">
         {/* Left Sidebar - Conversations List */}
-        <div className="w-96 flex-shrink-0 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 flex flex-col overflow-hidden">
+        <div className={`${showChatOnMobile ? 'hidden md:flex' : 'flex'} w-full md:w-96 md:flex-shrink-0 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 flex-col overflow-hidden`}>
           {/* Search and Filters */}
           <div className="p-4 border-b border-gray-200 dark:border-gray-800 space-y-3">
             <div className="relative">
@@ -851,8 +852,11 @@ export default function MessagesPage() {
               filteredConversations.map((conv) => (
                 <button
                   key={conv.id}
-                  onClick={() => setActiveConversation(conv.id)}
-                  className={`w-full p-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-800 ${activeConversation === conv.id ? "bg-blue-50 dark:bg-blue-900/10" : ""
+                  onClick={() => {
+                    setActiveConversation(conv.id);
+                    setShowChatOnMobile(true);
+                  }}
+                  className={`w-full p-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-800 touch-manipulation ${activeConversation === conv.id ? "bg-blue-50 dark:bg-blue-900/10" : ""
                     }`}
                 >
                   <div className="flex items-start gap-3">
@@ -916,14 +920,23 @@ export default function MessagesPage() {
         </div>
 
         {/* Right Side - Active Chat */}
-        <div className="flex-1 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 flex flex-col overflow-hidden">
+        <div className={`${showChatOnMobile ? 'flex' : 'hidden md:flex'} flex-1 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 flex-col overflow-hidden`}>
           {activeConv ? (
             <>
               {/* Chat Header */}
-              <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+              <div className="p-3 sm:p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                  {/* Back button for mobile */}
+                  <button
+                    onClick={() => setShowChatOnMobile(false)}
+                    className="md:hidden p-2 -ml-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors touch-manipulation"
+                    aria-label="Back to conversations"
+                  >
+                    <ArrowLeft className="w-5 h-5" />
+                  </button>
+
                   <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-white relative"
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-white relative flex-shrink-0"
                     style={{ backgroundColor: activeConv.courseColor || "#6E8CB9" }}
                   >
                     {getConversationIcon(activeConv)}
@@ -931,45 +944,45 @@ export default function MessagesPage() {
                       <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white dark:border-gray-900" />
                     )}
                   </div>
-                  <div>
+                  <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-gray-900 dark:text-white">
+                      <h3 className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white truncate">
                         {activeConv.name}
                       </h3>
                       {activeConv.isFavorite && (
-                        <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                        <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-amber-400 text-amber-400 flex-shrink-0" />
                       )}
                     </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                       {activeConv.participants.join(", ")}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 flex-shrink-0">
                   {(activeConv.type === "dm" || activeConv.type === "teacher") && (
                     <>
-                      <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                      <button className="hidden sm:flex p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 touch-manipulation" aria-label="Call">
                         <Phone className="w-5 h-5" />
                       </button>
-                      <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                      <button className="hidden sm:flex p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 touch-manipulation" aria-label="Video call">
                         <Video className="w-5 h-5" />
                       </button>
                     </>
                   )}
                   {activeConv.type === "study-group" && (
-                    <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <button className="hidden sm:flex p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 touch-manipulation" aria-label="Group settings">
                       <Settings className="w-5 h-5" />
                     </button>
                   )}
-                  <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                  <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 touch-manipulation" aria-label="More options">
                     <MoreVertical className="w-5 h-5" />
                   </button>
                 </div>
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
                 {messages.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full text-center">
                     <MessageCircle className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-3" />
@@ -987,14 +1000,14 @@ export default function MessagesPage() {
                         className={`flex gap-3 ${isCurrentUser ? "flex-row-reverse" : ""}`}
                       >
                         {!isCurrentUser && (
-                          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
-                            <UserCircle className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+                          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                            <UserCircle className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 dark:text-gray-400" />
                           </div>
                         )}
 
                         <div
                           className={`flex flex-col ${isCurrentUser ? "items-end" : "items-start"
-                            } max-w-[70%]`}
+                            } max-w-[85%] sm:max-w-[75%] md:max-w-[70%]`}
                         >
                           {!isCurrentUser && (
                             <span className="text-xs font-medium text-gray-900 dark:text-white mb-1">
@@ -1003,15 +1016,15 @@ export default function MessagesPage() {
                           )}
 
                           <div
-                            className={`px-4 py-2 rounded-2xl ${isCurrentUser
+                            className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl ${isCurrentUser
                               ? "bg-[#6E8CB9] text-white"
                               : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
                               }`}
                           >
-                            <p className="text-sm">{message.content}</p>
+                            <p className="text-sm break-words">{message.content}</p>
                           </div>
 
-                          <span className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                          <span className="text-[10px] sm:text-xs text-gray-400 dark:text-gray-500 mt-1">
                             {message.timestamp}
                           </span>
                         </div>
@@ -1022,9 +1035,9 @@ export default function MessagesPage() {
               </div>
 
               {/* Message Input */}
-              <div className="p-4 border-t border-gray-200 dark:border-gray-800">
+              <div className="p-3 sm:p-4 border-t border-gray-200 dark:border-gray-800">
                 <div className="flex items-end gap-2">
-                  <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                  <button className="hidden sm:flex p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors touch-manipulation" aria-label="Attach file">
                     <Paperclip className="w-5 h-5" />
                   </button>
 
@@ -1040,22 +1053,23 @@ export default function MessagesPage() {
                       }}
                       placeholder="Type your message..."
                       rows={1}
-                      className="w-full px-4 py-2 pr-10 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#6E8CB9] focus:border-transparent resize-none"
+                      className="w-full px-3 sm:px-4 py-2.5 sm:py-2 pr-10 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#6E8CB9] focus:border-transparent resize-none"
                     />
-                    <button className="absolute right-2 bottom-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                    <button className="absolute right-2 bottom-2.5 sm:bottom-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors touch-manipulation" aria-label="Add emoji">
                       <Smile className="w-5 h-5" />
                     </button>
                   </div>
 
                   <button
                     onClick={handleSendMessage}
-                    className="p-3 bg-[#6E8CB9] text-white rounded-lg hover:bg-[#5F7AA3] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-2.5 sm:p-3 bg-[#6E8CB9] text-white rounded-lg hover:bg-[#5F7AA3] transition-colors disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
                     disabled={!messageInput.trim()}
+                    aria-label="Send message"
                   >
                     <Send className="w-5 h-5" />
                   </button>
                 </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                <p className="hidden sm:block text-xs text-gray-500 dark:text-gray-400 mt-2">
                   Press Enter to send, Shift+Enter for new line
                 </p>
               </div>
@@ -1073,8 +1087,8 @@ export default function MessagesPage() {
 
       {/* Create Group Modal */}
       {showCreateGroup && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 w-full max-w-md p-6">
+        <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
+          <div className="bg-white dark:bg-gray-900 rounded-t-2xl sm:rounded-xl border border-gray-200 dark:border-gray-800 w-full max-w-md p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                 Create Study Group
