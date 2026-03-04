@@ -85,13 +85,68 @@ const TOPIC_CONTENT: Record<string, { title: string; type: string; content: Reac
       </div>
     ),
   },
+  schedule: {
+    title: "Course Schedule",
+    type: "document",
+    content: (
+      <div className="space-y-4 sm:space-y-6">
+        <div className="overflow-x-auto -mx-4 sm:mx-0">
+          <table className="w-full border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr className="bg-[#1e3a8a] text-white">
+                <th className="px-3 sm:px-4 py-2.5 text-left font-semibold">Week</th>
+                <th className="px-3 sm:px-4 py-2.5 text-left font-semibold">Dates</th>
+                <th className="px-3 sm:px-4 py-2.5 text-left font-semibold">Topic</th>
+                <th className="px-3 sm:px-4 py-2.5 text-left font-semibold">Assignments Due</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { week: "1",  dates: "Jan 5–9",    topic: "Review: Order of Operations",           due: "HW 1" },
+                { week: "2",  dates: "Jan 12–16",   topic: "Variables & Expressions",               due: "HW 2, Worksheet 1" },
+                { week: "3",  dates: "Jan 19–23",   topic: "Solving One-Step Equations",            due: "HW 3, Quiz 1" },
+                { week: "4",  dates: "Jan 26–30",   topic: "Solving Multi-Step Equations",          due: "HW 4, Worksheet 2–3" },
+                { week: "5",  dates: "Feb 2–6",     topic: "Inequalities",                          due: "Worksheet 4, Project 1" },
+                { week: "6",  dates: "Feb 9–13",    topic: "Introduction to Functions",             due: "HW 5, Quiz 2" },
+                { week: "7",  dates: "Feb 16–20",   topic: "Graphing Linear Functions",             due: "Worksheet 5–6" },
+                { week: "8",  dates: "Feb 23–27",   topic: "Slope & Rate of Change",                due: "Worksheet 7, Project 2" },
+                { week: "9",  dates: "Mar 2–6",     topic: "Systems of Equations",                  due: "HW 6, Quiz 3" },
+                { week: "10", dates: "Mar 9–13",    topic: "Intro to Polynomials",                  due: "HW 7, Worksheet 8" },
+                { week: "11", dates: "Mar 16–20",   topic: "Factoring",                             due: "HW 8" },
+                { week: "12", dates: "Mar 23–27",   topic: "Quadratic Equations",                   due: "Project 3, Quiz 4" },
+                { week: "13", dates: "Mar 30–Apr 3",topic: "Review & Final Exam Prep",              due: "Study Guide" },
+                { week: "14", dates: "Apr 6–10",    topic: "Final Exam Week",                       due: "Final Exam" },
+              ].map((row, i) => (
+                <tr
+                  key={i}
+                  className={cn(
+                    "border-b border-gray-200 dark:border-gray-700",
+                    i % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800/50"
+                  )}
+                >
+                  <td className="px-3 sm:px-4 py-2.5 font-medium text-gray-900 dark:text-white">{row.week}</td>
+                  <td className="px-3 sm:px-4 py-2.5 text-gray-600 dark:text-gray-400 whitespace-nowrap">{row.dates}</td>
+                  <td className="px-3 sm:px-4 py-2.5 text-gray-700 dark:text-gray-300">{row.topic}</td>
+                  <td className="px-3 sm:px-4 py-2.5 text-gray-500 dark:text-gray-400">{row.due}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 p-3 sm:p-4">
+          <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-300">
+            <span className="font-semibold">Note:</span> Schedule is subject to change. Check announcements for any updates.
+          </p>
+        </div>
+      </div>
+    ),
+  },
   toc: {
     title: "Table of Contents",
     type: "list",
     content: (
-      <div className="space-y-3 sm:space-y-4">
-        <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Course materials organized by unit:</p>
-        <div className="space-y-1">
+      <div className="space-y-1">
           {["Unit 1: Variables & Expressions", "Unit 2: Solving Equations", "Unit 3: Inequalities", "Unit 4: Functions", "Unit 5: Graphing", "Unit 6: Systems of Equations", "Unit 7: Polynomials", "Unit 8: Factoring", "Unit 9: Quadratics", "Unit 10: Review & Final"].map((unit, i) => (
             <div key={i} className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors touch-manipulation">
               <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-[#1e3a8a] flex-shrink-0" />
@@ -99,7 +154,6 @@ const TOPIC_CONTENT: Record<string, { title: string; type: string; content: Reac
               <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 flex-shrink-0" />
             </div>
           ))}
-        </div>
       </div>
     ),
   },
@@ -107,9 +161,7 @@ const TOPIC_CONTENT: Record<string, { title: string; type: string; content: Reac
     title: "Homework",
     type: "list",
     content: (
-      <div className="space-y-3 sm:space-y-4">
-        <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Current homework assignments:</p>
-        <div className="space-y-1">
+      <div className="space-y-1">
           {[
             { name: "HW 5: Chapter 5 Practice", due: "Jan 20", status: "pending" },
             { name: "HW 4: Graphing Linear Equations", due: "Jan 15", status: "completed" },
@@ -129,7 +181,107 @@ const TOPIC_CONTENT: Record<string, { title: string; type: string; content: Reac
               <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 flex-shrink-0" />
             </div>
           ))}
-        </div>
+      </div>
+    ),
+  },
+  worksheets: {
+    title: "Worksheets",
+    type: "list",
+    content: (
+      <div className="space-y-1">
+          {[
+            { name: "Worksheet 8: Quadratic Expressions", due: "Jan 24", status: "pending" },
+            { name: "Worksheet 7: Factoring Polynomials", due: "Jan 20", status: "pending" },
+            { name: "Worksheet 6: Graphing Practice", due: "Jan 17", status: "completed" },
+            { name: "Worksheet 5: Systems of Equations", due: "Jan 13", status: "completed" },
+            { name: "Worksheet 4: Slope & Intercepts", due: "Jan 10", status: "completed" },
+            { name: "Worksheet 3: Solving Inequalities", due: "Jan 7", status: "completed" },
+            { name: "Worksheet 2: Multi-Step Equations", due: "Jan 5", status: "completed" },
+            { name: "Worksheet 1: Order of Operations Review", due: "Jan 3", status: "completed" },
+          ].map((ws, i) => (
+            <div key={i} className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors touch-manipulation">
+              <FileText className={cn("w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0", ws.status === "completed" ? "text-green-500" : "text-[#1e3a8a]")} />
+              <div className="flex-1 min-w-0">
+                <span className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm block truncate">{ws.name}</span>
+                <p className="text-[10px] sm:text-xs text-gray-500">Due: {ws.due}</p>
+              </div>
+              {ws.status === "completed" && (
+                <span className="text-[10px] sm:text-xs bg-green-100 text-green-700 px-1.5 sm:px-2 py-0.5 rounded whitespace-nowrap flex-shrink-0">Completed</span>
+              )}
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 flex-shrink-0" />
+            </div>
+          ))}
+      </div>
+    ),
+  },
+  projects: {
+    title: "Projects",
+    type: "list",
+    content: (
+      <div className="space-y-1">
+          {[
+            { name: "Project 3: Real-World Algebra Application", due: "Feb 14", status: "pending" },
+            { name: "Project 2: Graphing Story Problems", due: "Jan 17", status: "completed" },
+            { name: "Project 1: Math in Everyday Life Poster", due: "Jan 6", status: "completed" },
+          ].map((proj, i) => (
+            <div key={i} className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors touch-manipulation">
+              <FileText className={cn("w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0", proj.status === "completed" ? "text-green-500" : "text-[#1e3a8a]")} />
+              <div className="flex-1 min-w-0">
+                <span className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm block truncate">{proj.name}</span>
+                <p className="text-[10px] sm:text-xs text-gray-500">Due: {proj.due}</p>
+              </div>
+              {proj.status === "completed" && (
+                <span className="text-[10px] sm:text-xs bg-green-100 text-green-700 px-1.5 sm:px-2 py-0.5 rounded whitespace-nowrap flex-shrink-0">Completed</span>
+              )}
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 flex-shrink-0" />
+            </div>
+          ))}
+      </div>
+    ),
+  },
+  resources: {
+    title: "Resources",
+    type: "list",
+    content: (
+      <div className="space-y-1">
+          {[
+            { name: "Formula Reference Sheet" },
+            { name: "Graphing Calculator Guide" },
+            { name: "Study Tips & Strategies" },
+            { name: "Practice Test Answer Keys" },
+            { name: "Khan Academy Links" },
+          ].map((res, i) => (
+            <div key={i} className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors touch-manipulation">
+              <FileText className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-[#1e3a8a]" />
+              <div className="flex-1 min-w-0">
+                <span className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm block truncate">{res.name}</span>
+              </div>
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 flex-shrink-0" />
+            </div>
+          ))}
+      </div>
+    ),
+  },
+  extra: {
+    title: "Extra Credit",
+    type: "list",
+    content: (
+      <div className="space-y-1">
+          {[
+            { name: "Bonus: Math Puzzle Challenge", due: "Feb 7", status: "pending" },
+          ].map((ec, i) => (
+            <div key={i} className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors touch-manipulation">
+              <FileText className={cn("w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0", ec.status === "completed" ? "text-green-500" : "text-[#1e3a8a]")} />
+              <div className="flex-1 min-w-0">
+                <span className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm block truncate">{ec.name}</span>
+                <p className="text-[10px] sm:text-xs text-gray-500">Due: {ec.due}</p>
+              </div>
+              {ec.status === "completed" && (
+                <span className="text-[10px] sm:text-xs bg-green-100 text-green-700 px-1.5 sm:px-2 py-0.5 rounded whitespace-nowrap flex-shrink-0">Completed</span>
+              )}
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 flex-shrink-0" />
+            </div>
+          ))}
       </div>
     ),
   },
@@ -231,10 +383,12 @@ export default function ContentPage() {
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-white flex-1">
             {currentContent.title}
           </h2>
-          <button className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-[#1e3a8a] hover:underline flex-shrink-0 touch-manipulation">
-            <Printer className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">Print</span>
-          </button>
+          {selectedTopic === "syllabus" && (
+            <button className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-[#1e3a8a] hover:underline flex-shrink-0 touch-manipulation">
+              <Printer className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Print</span>
+            </button>
+          )}
         </div>
 
         {/* Content Body */}

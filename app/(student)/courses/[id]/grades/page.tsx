@@ -190,9 +190,9 @@ export default function GradesPage() {
         <h1 className="text-2xl font-normal text-gray-900 dark:text-white">
           Final Calculated Grade
         </h1>
-        <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-          <Printer className="w-4 h-4" />
-          Print
+        <button className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-[#1e3a8a] hover:underline flex-shrink-0 touch-manipulation">
+          <Printer className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span className="hidden sm:inline">Print</span>
         </button>
       </div>
 

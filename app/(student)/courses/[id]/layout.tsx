@@ -12,6 +12,7 @@ import {
   HelpCircle,
   Megaphone,
   Users,
+  CalendarCheck,
   MapPin,
   Clock,
   ChevronRight,
@@ -33,6 +34,7 @@ const PRIMARY_NAV = [
 ];
 
 const MORE_NAV = [
+  { label: "Attendance",    icon: CalendarCheck, segment: "attendance"    },
   { label: "Quizzes",       icon: HelpCircle,    segment: "quizzes"       },
   { label: "Announcements", icon: Megaphone,     segment: "announcements" },
   { label: "Classlist",     icon: Users,         segment: "classlist"     },

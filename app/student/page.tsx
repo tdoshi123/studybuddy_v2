@@ -51,8 +51,6 @@ interface Announcement {
 
 interface ScheduleItem {
   id: string;
-  day: string;
-  label: string;
   courseName: string;
   color: string;
   time: string;
@@ -169,12 +167,12 @@ const ANNOUNCEMENTS: Announcement[] = [
 ];
 
 const SCHEDULE: ScheduleItem[] = [
-  { id: "1", day: "Mon", label: "Today",     courseName: "Math",    color: "#1e3a8a", time: "9:00 AM" },
-  { id: "2", day: "Mon", label: "Today",     courseName: "Science", color: "#7c3aed", time: "10:30 AM" },
-  { id: "3", day: "Tue", label: "Tomorrow",  courseName: "ELA",     color: "#166534", time: "9:00 AM" },
-  { id: "4", day: "Tue", label: "Tomorrow",  courseName: "Art",     color: "#be185d", time: "1:00 PM" },
-  { id: "5", day: "Wed", label: "Wed",       courseName: "SS",      color: "#b45309", time: "9:00 AM" },
-  { id: "6", day: "Wed", label: "Wed",       courseName: "PE",      color: "#0f766e", time: "2:00 PM" },
+  { id: "1", courseName: "Math",    color: "#1e3a8a", time: "9:00 AM"  },
+  { id: "2", courseName: "Science", color: "#7c3aed", time: "10:30 AM" },
+  { id: "3", courseName: "ELA",     color: "#166534", time: "11:15 AM" },
+  { id: "4", courseName: "Art",     color: "#be185d", time: "1:00 PM"  },
+  { id: "5", courseName: "SS",      color: "#b45309", time: "2:00 PM"  },
+  { id: "6", courseName: "PE",      color: "#0f766e", time: "3:00 PM"  },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -202,7 +200,7 @@ export default function StudentPage() {
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
               {firstName}&apos;s Dashboard
             </h1>
           </div>
@@ -214,12 +212,12 @@ export default function StudentPage() {
           </Link>
         </div>
 
-        {/* ── This Week schedule strip ── */}
+        {/* ── Today's Classes schedule strip ── */}
         <section>
           <div className="flex items-center justify-between mb-3">
             <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
               <CalendarDays className="w-4 h-4 text-[#1e3a8a]" />
-              This Week
+              Today&apos;s Classes
             </h2>
             <Link href="/calendar" className="text-xs font-medium text-[#1e3a8a] dark:text-blue-400 hover:underline">
               Full calendar
@@ -237,13 +235,10 @@ export default function StudentPage() {
                     className="w-2 h-2 rounded-full flex-shrink-0"
                     style={{ backgroundColor: s.color }}
                   />
-                  <span className="text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wide">
-                    {s.label}
-                  </span>
+                  <p className="text-xs font-semibold text-gray-800 dark:text-white leading-tight">
+                    {s.courseName}
+                  </p>
                 </div>
-                <p className="text-xs font-semibold text-gray-800 dark:text-white leading-tight">
-                  {s.courseName}
-                </p>
                 <p className="text-[10px] text-gray-400 dark:text-slate-500">{s.time}</p>
               </div>
             ))}
@@ -283,7 +278,7 @@ export default function StudentPage() {
               <span className="text-xs text-gray-400 dark:text-slate-500">{TODO.length} items</span>
             </div>
 
-            <ul className="divide-y divide-gray-100 dark:divide-slate-800 max-h-[372px] overflow-y-auto">
+            <ul className="divide-y divide-gray-100 dark:divide-slate-800 max-h-[350px] overflow-y-auto">
               {TODO.map((item) => (
                 <li key={item.id}>
                   <Link
@@ -388,7 +383,7 @@ function CourseCard({ course }: { course: Course }) {
         />
         {/* Grade badge — top right */}
         <span className={`absolute top-3 right-3 text-xs font-bold px-2 py-0.5 rounded-full shadow ${gradeColor(course.gradeNum)}`}>
-          {course.grade}
+          {course.gradeNum}%
         </span>
         {/* Course name at bottom */}
         <div className="absolute bottom-0 left-0 right-0 px-4 py-3">
@@ -398,22 +393,6 @@ function CourseCard({ course }: { course: Course }) {
           <p className="text-white/80 text-xs mt-0.5">{course.teacher}</p>
         </div>
       </Link>
-
-      {/* Grade progress bar */}
-      <div className="px-4 pt-3 pb-0">
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wide">
-            Current Grade
-          </span>
-          <span className="text-[10px] font-bold text-gray-600 dark:text-gray-400">{course.gradeNum}%</span>
-        </div>
-        <div className="h-1.5 w-full rounded-full bg-gray-100 dark:bg-slate-800 overflow-hidden">
-          <div
-            className="h-full rounded-full transition-all duration-500"
-            style={{ width: `${course.gradeNum}%`, backgroundColor: course.color }}
-          />
-        </div>
-      </div>
 
       {/* Term */}
       <Link href={`/courses/${course.id}`} className="block px-4 pt-2 pb-2">

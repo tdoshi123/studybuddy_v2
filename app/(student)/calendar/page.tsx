@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Plus, Download, Filter } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-type ViewType = "month" | "week" | "day" | "agenda";
+type ViewType = "month" | "week" | "day" | "schedule";
 
 interface CalendarEvent {
   id: string;
@@ -189,6 +189,16 @@ export default function CalendarPage() {
     return "#";
   };
 
+  const formatTime = (time?: string, skipDuePlaceholder = false) => {
+    if (!time) return null;
+    if (skipDuePlaceholder && time === "15:00") return null;
+    const [hour, minute] = time.split(':');
+    const hourNum = parseInt(hour);
+    const ampm = hourNum >= 12 ? 'PM' : 'AM';
+    const displayHour = hourNum > 12 ? hourNum - 12 : hourNum === 0 ? 12 : hourNum;
+    return `${displayHour}:${minute} ${ampm}`;
+  };
+
   const goToPreviousMonth = () => {
     if (currentMonth === 0) {
       setCurrentMonth(11);
@@ -217,12 +227,6 @@ export default function CalendarPage() {
     setCurrentView("day");
   };
 
-  const getDayOfWeek = (date: number) => {
-    // February 1, 2026 is a Sunday (day 0)
-    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    return dayNames[date % 7];
-  };
-
   // Generate calendar days for February 2026
   const generateCalendarDays = () => {
     const days: { date: number; isCurrentMonth: boolean; events: CalendarEvent[] }[] = [];
@@ -232,13 +236,13 @@ export default function CalendarPage() {
 
     // February 2026 days (28 days, starts on Sunday)
     for (let i = 1; i <= 28; i++) {
-      const dayEvents = FEBRUARY_EVENTS.filter(e => e.date === i);
+      const dayEvents = FEBRUARY_EVENTS.filter(e => e.date === i && e.type !== "class");
       days.push({ date: i, isCurrentMonth: true, events: dayEvents });
     }
 
     // March days to fill the remaining cells (March 1-14 for the last two rows)
     for (let i = 1; i <= 14; i++) {
-      const dayEvents = MARCH_EVENTS.filter(e => e.date === i);
+      const dayEvents = MARCH_EVENTS.filter(e => e.date === i && e.type !== "class");
       days.push({ date: i, isCurrentMonth: false, events: dayEvents });
     }
 
@@ -250,29 +254,10 @@ export default function CalendarPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Calendar
-          </h1>
-          <p className="mt-1 text-gray-600 dark:text-gray-400">
-            View your schedule, assignments, and upcoming events
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-            <Download className="w-4 h-4" />
-            Export
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-            <Filter className="w-4 h-4" />
-            Filter
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#1e3a8a] text-white rounded-lg hover:bg-[#1e293b] transition-colors">
-            <Plus className="w-4 h-4" />
-            Add Event
-          </button>
-        </div>
+      <div>
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
+          Calendar
+        </h1>
       </div>
 
       {/* Calendar Container */}
@@ -280,34 +265,42 @@ export default function CalendarPage() {
         {/* Calendar Navigation */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <button
-                onClick={goToPreviousMonth}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              >
-                <ChevronLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-              </button>
-              <button
-                onClick={goToToday}
-                className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              >
-                Today
-              </button>
-              <button
-                onClick={goToNextMonth}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              >
-                <ChevronRight className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-              </button>
-            </div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              {monthNames[currentMonth]} {currentYear}
-            </h2>
+            {currentView !== "schedule" && (
+              <>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={goToPreviousMonth}
+                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  </button>
+                  <button
+                    onClick={goToToday}
+                    className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    Today
+                  </button>
+                  <button
+                    onClick={goToNextMonth}
+                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <ChevronRight className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  </button>
+                </div>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {currentView === "week"
+                    ? `Feb 1, ${currentYear} – Feb 7, ${currentYear}`
+                    : currentView === "day"
+                    ? `${monthNames[currentMonth]} ${selectedDay}, ${currentYear}`
+                    : `${monthNames[currentMonth]} ${currentYear}`}
+                </h2>
+              </>
+            )}
           </div>
 
           {/* View Toggle */}
           <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
-            {(["month", "week", "day", "agenda"] as ViewType[]).map((view) => (
+            {(["month", "week", "day", "schedule"] as ViewType[]).map((view) => (
               <button
                 key={view}
                 onClick={() => setCurrentView(view)}
@@ -387,10 +380,10 @@ export default function CalendarPage() {
 
           {/* Week View */}
           {currentView === "week" && (
-            <div className="space-y-0">
+            <div className="space-y-0 max-h-[720px] overflow-y-auto">
               {/* Week Header */}
-              <div className="grid grid-cols-8 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 sticky top-0 z-10">
-                <div className="py-3" /> {/* Time column */}
+              <div className="grid grid-cols-8 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 bg-white dark:bg-gray-900">
+                <div className="py-3" />
                 {[
                   { day: "Sun", date: 1 },
                   { day: "Mon", date: 2 },
@@ -404,18 +397,51 @@ export default function CalendarPage() {
                     key={item.date}
                     className="text-center text-sm font-medium text-gray-700 dark:text-gray-300 py-3 border-l border-gray-200 dark:border-gray-700"
                   >
-                    <div>{item.day}</div>
-                    <div className="text-lg font-semibold text-gray-900 dark:text-white">{item.date}</div>
+                    {item.day}
                   </div>
                 ))}
               </div>
 
+              {/* All Day row */}
+              {(() => {
+                const hasAllDay = [1,2,3,4,5,6,7].some((d) =>
+                  FEBRUARY_EVENTS.some((e) => e.type !== "class" && e.date === d && e.startTime === "15:00")
+                );
+                if (!hasAllDay) return null;
+                return (
+                  <div className="grid grid-cols-8 border-b border-gray-200 dark:border-gray-700 min-h-[50px]">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 pr-2 text-right pt-2">All Day</div>
+                    {[1,2,3,4,5,6,7].map((dayDate) => {
+                      const allDayEvents = FEBRUARY_EVENTS.filter(
+                        (e) => e.type !== "class" && e.date === dayDate && e.startTime === "15:00"
+                      );
+                      return (
+                        <div key={dayDate} className="border-l border-gray-200 dark:border-gray-700 p-1">
+                          {allDayEvents.map((event) => (
+                            <Link
+                              key={event.id}
+                              href={getEventLink(event)}
+                              className="block text-xs px-1.5 py-0.5 rounded mb-1 truncate cursor-pointer hover:opacity-80 transition-opacity"
+                              style={{ backgroundColor: event.bgColor, color: event.textColor, borderLeft: `3px solid ${event.color}` }}
+                              title={event.title}
+                            >
+                              {event.title}
+                            </Link>
+                          ))}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+
               {/* Time slots with events */}
               <div className="relative">
-                {Array.from({ length: 10 }, (_, i) => i + 8).map((hour) => {
+                {Array.from({ length: 16 }, (_, i) => i + 8).map((hour) => {
                   // Get events for this hour across all days of the week
                   const getEventsForHourAndDay = (day: number) => {
                     return FEBRUARY_EVENTS.filter((event) => {
+                      if (event.type === "class") return false;
                       if (event.date !== day || !event.startTime) return false;
                       const eventHour = parseInt(event.startTime.split(':')[0]);
                       return eventHour === hour;
@@ -438,20 +464,15 @@ export default function CalendarPage() {
                               <Link
                                 key={event.id}
                                 href={getEventLink(event)}
-                                className="block text-xs px-2 py-1 rounded mb-1 truncate hover:opacity-80 transition-opacity"
+                                className="block text-xs px-1.5 py-0.5 rounded mb-1 truncate cursor-pointer hover:opacity-80 transition-opacity"
                                 style={{
                                   backgroundColor: event.bgColor,
                                   color: event.textColor,
                                   borderLeft: `3px solid ${event.color}`,
                                 }}
-                                title={`${event.title} - ${event.startTime} to ${event.endTime}`}
+                                title={event.title}
                               >
-                                <div className="font-medium truncate">{event.title}</div>
-                                {event.startTime && (
-                                  <div className="text-[10px] opacity-75">
-                                    {event.startTime.replace(':00', '')} - {event.endTime?.replace(':00', '')}
-                                  </div>
-                                )}
+                                {event.title}
                               </Link>
                             ))}
                           </div>
@@ -466,22 +487,16 @@ export default function CalendarPage() {
 
           {/* Day View */}
           {currentView === "day" && (
-            <div className="space-y-4">
-              <div className="text-center py-4 border-b border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  {getDayOfWeek(selectedDay)}, {monthNames[currentMonth]} {selectedDay}, {currentYear}
-                </h3>
-              </div>
-
+            <div className="space-y-4 max-h-[720px] overflow-y-auto">
               {/* All Day / Due Items */}
               {(() => {
                 const allDayEvents = FEBRUARY_EVENTS.filter(e =>
-                  e.date === selectedDay && (!e.startTime || e.startTime === "15:00")
+                  e.type !== "class" && e.date === selectedDay && (!e.startTime || e.startTime === "15:00")
                 );
                 if (allDayEvents.length > 0) {
                   return (
                     <div className="bg-gray-50 dark:bg-gray-800/30 p-4 rounded-lg">
-                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">All Day / Due Today</h4>
+                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">All Day</h4>
                       <div className="space-y-2">
                         {allDayEvents.map((event) => (
                           <Link
@@ -505,8 +520,9 @@ export default function CalendarPage() {
               })()}
 
               {/* Time slots for day */}
-              {Array.from({ length: 14 }, (_, i) => i + 7).map((hour) => {
+              {Array.from({ length: 16 }, (_, i) => i + 8).map((hour) => {
                 const hourEvents = FEBRUARY_EVENTS.filter(e => {
+                  if (e.type === "class") return false;
                   if (e.date !== selectedDay || !e.startTime) return false;
                   const eventHour = parseInt(e.startTime.split(':')[0]);
                   return eventHour === hour;
@@ -528,8 +544,8 @@ export default function CalendarPage() {
                             borderLeft: `3px solid ${event.color}`
                           }}
                         >
-                          {event.startTime && event.endTime && (
-                            <span className="font-medium">{event.startTime} - {event.endTime} </span>
+                          {event.endTime && (
+                            <span className="font-medium">{formatTime(event.endTime)} </span>
                           )}
                           {event.title}
                         </Link>
@@ -542,121 +558,51 @@ export default function CalendarPage() {
           )}
 
           {/* Agenda View */}
-          {currentView === "agenda" && (
-            <div className="space-y-6">
-              {/* Group events by date */}
-              {Array.from({ length: 28 }, (_, i) => i + 1).map((date) => {
-                const dayEvents = FEBRUARY_EVENTS.filter(e => e.date === date).sort((a, b) => {
-                  const timeA = a.startTime || "23:59";
-                  const timeB = b.startTime || "23:59";
-                  return timeA.localeCompare(timeB);
-                });
-                if (dayEvents.length === 0) return null;
-
-                // Correct day of week calculation for February 2026
-                // February 1, 2026 is a Sunday
-                const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-                const dayOfWeek = dayNames[date % 7];
-
-                // Get event type badge
-                const getEventTypeBadge = (type: string) => {
-                  const badges = {
-                    class: "Class",
-                    assignment: "Due",
-                    quiz: "Quiz",
-                    test: "Test",
-                    project: "Project",
-                    event: "Event",
-                  };
-                  return badges[type as keyof typeof badges] || badges.event;
-                };
-
-                const formatTime = (time?: string) => {
-                  if (!time || time === "15:00") return null;
-                  const [hour, minute] = time.split(':');
-                  const hourNum = parseInt(hour);
-                  const ampm = hourNum >= 12 ? 'PM' : 'AM';
-                  const displayHour = hourNum > 12 ? hourNum - 12 : hourNum === 0 ? 12 : hourNum;
-                  return `${displayHour}:${minute} ${ampm}`;
-                };
+          {currentView === "schedule" && (
+            <div className="grid grid-cols-5 gap-5">
+              {[
+                { day: "Monday", dates: [2, 9, 16, 23] },
+                { day: "Tuesday", dates: [3, 10, 17, 24] },
+                { day: "Wednesday", dates: [4, 11, 18, 25] },
+                { day: "Thursday", dates: [5, 12, 19, 26] },
+                { day: "Friday", dates: [6, 13, 20, 27] },
+              ].map(({ day, dates }) => {
+                const classes = FEBRUARY_EVENTS
+                  .filter((e) => e.type === "class" && dates.includes(e.date))
+                  .filter((e, i, arr) => arr.findIndex((a) => a.title === e.title && a.startTime === e.startTime) === i)
+                  .sort((a, b) => (a.startTime || "").localeCompare(b.startTime || ""));
 
                 return (
-                  <div key={date} className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-                    {/* Date Header */}
-                    <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                      <div className="flex items-baseline gap-3">
-                        <div className="text-3xl font-bold text-gray-900 dark:text-white">{date}</div>
-                        <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">{dayOfWeek}</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-500">February 2026</div>
-                        <div className="ml-auto">
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#1e3a8a]/10 text-[#1e3a8a]">
-                            {dayEvents.length} {dayEvents.length === 1 ? 'event' : 'events'}
-                          </span>
-                        </div>
-                      </div>
+                  <div key={day} className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 overflow-hidden flex flex-col">
+                    <div className="px-5 py-4 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white tracking-wide">{day}</h3>
                     </div>
-
-                    {/* Events List */}
-                    <div className="divide-y divide-gray-100 dark:divide-gray-800">
-                      {dayEvents.map((event) => {
-                        const badge = getEventTypeBadge(event.type);
-                        const startTimeFormatted = formatTime(event.startTime);
-                        const endTimeFormatted = formatTime(event.endTime);
-
-                        return (
-                          <Link
-                            key={event.id}
-                            href={getEventLink(event)}
-                            className="block px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer transition-colors group"
-                          >
-                            <div className="flex items-start gap-4">
-                              {/* Time Column */}
-                              <div className="w-24 flex-shrink-0 pt-0.5">
-                                {startTimeFormatted ? (
-                                  <div className="text-sm font-semibold text-gray-900 dark:text-white">
-                                    {startTimeFormatted}
-                                  </div>
-                                ) : (
-                                  <div className="text-sm font-semibold text-gray-500 dark:text-gray-400">
-                                    All Day
-                                  </div>
-                                )}
-                                {endTimeFormatted && startTimeFormatted !== endTimeFormatted && (
-                                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                                    to {endTimeFormatted}
-                                  </div>
-                                )}
-                              </div>
-
-                              {/* Color Indicator */}
-                              <div
-                                className="w-1 h-full rounded-full mt-1 flex-shrink-0"
-                                style={{ backgroundColor: event.color, minHeight: '40px' }}
-                              />
-
-                              {/* Event Details */}
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-start gap-3 mb-2">
-                                  <div className="flex-1 min-w-0">
-                                    <h4 className="text-base font-semibold text-gray-900 dark:text-white group-hover:text-[#1e3a8a] dark:group-hover:text-[#1e3a8a] transition-colors">
-                                      {event.title}
-                                    </h4>
-                                  </div>
-                                  <span
-                                    className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium flex-shrink-0"
-                                    style={{
-                                      backgroundColor: event.bgColor,
-                                      color: event.textColor,
-                                    }}
-                                  >
-                                    {badge}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </Link>
-                        );
-                      })}
+                    <div className="divide-y divide-gray-100 dark:divide-gray-800 flex-1">
+                      {classes.map((event) => (
+                        <Link
+                          key={event.id}
+                          href={getEventLink(event)}
+                          className="flex items-start gap-3.5 px-5 py-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group"
+                        >
+                          <span
+                            className="w-3 h-3 rounded-full flex-shrink-0 mt-1"
+                            style={{ backgroundColor: event.color }}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-[#1e3a8a] transition-colors leading-snug">
+                              {event.title}
+                            </p>
+                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1.5">
+                              {formatTime(event.startTime)} – {formatTime(event.endTime)}
+                            </p>
+                          </div>
+                        </Link>
+                      ))}
+                      {classes.length === 0 && (
+                        <div className="px-5 py-8 text-center text-sm text-gray-400 dark:text-gray-500">
+                          No classes
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

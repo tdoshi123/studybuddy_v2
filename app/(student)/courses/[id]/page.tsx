@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileText, HelpCircle, Megaphone, ChevronRight, Clock, CheckCircle2, AlertCircle, BookOpen } from "lucide-react";
+import { FileText, HelpCircle, Megaphone, ChevronRight, Clock, CheckCircle2, BookOpen } from "lucide-react";
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -28,7 +28,7 @@ const UPCOMING_WORK = [
     dueTime: "3:00 PM",
     type: "assignment" as const,
     points: 20,
-    status: "not-started" as const,
+    status: "due" as const,
     urgent: true,
   },
   {
@@ -38,7 +38,7 @@ const UPCOMING_WORK = [
     dueTime: "10:00 AM",
     type: "quiz" as const,
     points: 25,
-    status: "not-started" as const,
+    status: "due" as const,
     urgent: true,
   },
   {
@@ -58,7 +58,7 @@ const UPCOMING_WORK = [
     dueTime: "3:00 PM",
     type: "assignment" as const,
     points: 100,
-    status: "in-progress" as const,
+    status: "due" as const,
     urgent: false,
   },
 ];
@@ -72,9 +72,8 @@ const RECENT_GRADES = [
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const STATUS_CONFIG = {
-  "not-started": { label: "Not started", color: "text-gray-500 bg-gray-100 dark:bg-slate-800 dark:text-gray-400" },
-  "in-progress":  { label: "In progress", color: "text-blue-600 bg-blue-50 dark:bg-blue-950/40 dark:text-blue-400" },
-  "submitted":    { label: "Submitted",   color: "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-400" },
+  "due":       { label: "Due",       color: "text-gray-500 bg-gray-100 dark:bg-slate-800 dark:text-gray-400" },
+  "submitted": { label: "Submitted", color: "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-400" },
 };
 
 const TYPE_CONFIG = {
@@ -85,40 +84,8 @@ const TYPE_CONFIG = {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function CourseHomePage() {
-  const notStartedCount = UPCOMING_WORK.filter((w) => w.status === "not-started").length;
-  const urgentCount     = UPCOMING_WORK.filter((w) => w.urgent).length;
-
   return (
     <div className="space-y-6">
-
-      {/* ── Quick stats row ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {[
-          { label: "Current Grade", value: "95%",                          sub: "A",             color: "text-emerald-600", bg: "bg-emerald-50 dark:bg-emerald-950/30" },
-          { label: "Assignments",   value: String(UPCOMING_WORK.length),   sub: `${notStartedCount} pending`, color: "text-blue-600",    bg: "bg-blue-50 dark:bg-blue-950/30"    },
-          { label: "Due Soon",      value: String(urgentCount),             sub: "this week",     color: "text-amber-600",   bg: "bg-amber-50 dark:bg-amber-950/30"  },
-          { label: "Announcements", value: String(ANNOUNCEMENTS.length),   sub: "1 new",         color: "text-purple-600",  bg: "bg-purple-50 dark:bg-purple-950/30"},
-        ].map(({ label, value, sub, color, bg }) => (
-          <div key={label} className={`rounded-xl p-4 ${bg} border border-gray-100 dark:border-slate-800`}>
-            <p className="text-xs font-medium text-gray-500 dark:text-gray-400">{label}</p>
-            <p className={`text-2xl font-black mt-1 ${color}`}>{value}</p>
-            <p className="text-xs text-gray-400 dark:text-slate-500 mt-0.5">{sub}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* ── Urgent alert ── */}
-      {urgentCount > 0 && (
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800">
-          <AlertCircle className="w-4 h-4 text-amber-500 flex-shrink-0" />
-          <p className="text-sm text-amber-800 dark:text-amber-300 font-medium flex-1">
-            <span className="font-bold">{urgentCount} item{urgentCount > 1 ? "s" : ""}</span> due today
-          </p>
-          <Link href="assignments" className="text-xs font-semibold text-amber-700 dark:text-amber-400 hover:underline">
-            View →
-          </Link>
-        </div>
-      )}
 
       {/* ── Two-column grid ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">

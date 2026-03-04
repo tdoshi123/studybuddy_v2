@@ -3,7 +3,6 @@
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Calendar, Clock, FileText, Upload, CheckCircle, AlertCircle, Download, X } from "lucide-react";
-import { getCourse } from "@/lib/constants/courses";
 
 interface Assignment {
   id: string;
@@ -116,7 +115,6 @@ export default function AssignmentPage() {
   const params = useParams();
   const courseId = params.id as string;
   const assignmentId = params.assignmentId as string;
-  const course = getCourse(courseId);
   const assignment = getAssignmentData(assignmentId, courseId);
 
   const [files, setFiles] = useState<File[]>([]);
@@ -164,11 +162,6 @@ export default function AssignmentPage() {
       <div className="p-6 lg:p-8 max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
-            <span>{course?.name || "Course"}</span>
-            <span>/</span>
-            <span>Assignments</span>
-          </div>
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">

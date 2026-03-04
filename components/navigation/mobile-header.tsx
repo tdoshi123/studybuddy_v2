@@ -18,7 +18,7 @@ export function MobileHeader() {
     if (pathname.startsWith("/courses/")) return "Course";
     if (pathname === "/calendar") return "Calendar";
     if (pathname === "/grades") return "Grades";
-    if (pathname === "/bus") return "Bus";
+
     if (pathname === "/inbox") return "Inbox";
     if (pathname === "/account") return "Account";
     return "StudyBuddy";

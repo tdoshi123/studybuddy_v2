@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import {
-  Send,
   Search,
   Megaphone,
   Users,
@@ -275,15 +274,11 @@ export default function InboxPage() {
       {/* ── Header ── */}
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Inbox</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">Inbox</h1>
           <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
             {unreadCount > 0 ? `${unreadCount} unread message${unreadCount > 1 ? "s" : ""}` : "All caught up!"}
           </p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2.5 bg-[#1e3a8a] text-white rounded-xl hover:bg-[#162554] transition-colors text-sm font-semibold shadow-sm">
-          <Send className="w-4 h-4" />
-          <span className="hidden sm:inline">Compose</span>
-        </button>
       </div>
 
       {/* ── Search + Filters ── */}
