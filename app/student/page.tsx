@@ -12,6 +12,7 @@ import {
   Megaphone,
   Award,
   CalendarDays,
+  BarChart3,
 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -407,7 +408,7 @@ function CourseCard({ course }: { course: Course }) {
         {[
           { href: `/courses/${course.id}/announcements`, icon: Bell,          label: "Announcements", badge: course.announcements },
           { href: `/courses/${course.id}/assignments`,   icon: FileText,      label: "Assignments",   badge: course.assignments  },
-          { href: `/courses/${course.id}/content`,       icon: BookOpen,      label: "Content"                                   },
+          { href: `/courses/${course.id}/grades`,            icon: BarChart3,     label: "Grades"                                    },
         ].map(({ href, icon: Icon, label, badge }) => (
           <Link
             key={label}

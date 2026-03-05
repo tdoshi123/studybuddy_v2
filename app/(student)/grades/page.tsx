@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, Award, Calculator, Plus, RotateCcw } from "lucide-react";
+import Link from "next/link";
+import { Calendar, Award, Calculator, Plus, RotateCcw, ChevronRight } from "lucide-react";
 
 
 interface Assignment {
@@ -592,9 +593,10 @@ export default function GradesPage() {
           {/* Course Cards */}
           <div className="space-y-4">
             {sortedCourses.map((course) => (
-              <div
+              <Link
                 key={course.id}
-                className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+                href={`/courses/${course.id}/grades`}
+                className="block bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200 group"
               >
                 <div className="flex items-center p-4 sm:p-5">
                   <div
@@ -603,7 +605,7 @@ export default function GradesPage() {
                   />
 
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-[#1e3a8a] dark:group-hover:text-blue-400 transition-colors">
                       {course.name}
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -619,8 +621,10 @@ export default function GradesPage() {
                     <span className="text-xl sm:text-2xl font-bold">{course.grade}</span>
                     <span className="text-xs sm:text-sm mt-0.5">{course.percentage}%</span>
                   </div>
+
+                  <ChevronRight className="w-5 h-5 text-gray-300 dark:text-gray-600 ml-2 flex-shrink-0 group-hover:text-[#1e3a8a] dark:group-hover:text-blue-400 transition-colors" />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
