@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
 import {
@@ -8,11 +7,9 @@ import {
   FolderOpen,
   BarChart3,
   FileText,
-  ChevronDown,
   HelpCircle,
   Megaphone,
   Users,
-  CalendarCheck,
   MapPin,
   Clock,
   ChevronRight,
@@ -27,15 +24,11 @@ interface LayoutProps {
 // ─── Nav config ──────────────────────────────────────────────────────────────
 
 const PRIMARY_NAV = [
-  { label: "Home",        icon: Home,      segment: ""             },
-  { label: "Content",     icon: FolderOpen,segment: "content"      },
-  { label: "Assignments", icon: FileText,  segment: "assignments"  },
-  { label: "Grades",      icon: BarChart3, segment: "grades"       },
-];
-
-const MORE_NAV = [
-  { label: "Attendance",    icon: CalendarCheck, segment: "attendance"    },
+  { label: "Home",          icon: Home,          segment: ""              },
+  { label: "Content",       icon: FolderOpen,    segment: "content"       },
+  { label: "Assignments",   icon: FileText,      segment: "assignments"   },
   { label: "Quizzes",       icon: HelpCircle,    segment: "quizzes"       },
+  { label: "Grades",        icon: BarChart3,     segment: "grades"        },
   { label: "Announcements", icon: Megaphone,     segment: "announcements" },
   { label: "Classlist",     icon: Users,         segment: "classlist"     },
 ];
@@ -47,30 +40,13 @@ export default function CourseLayout({ children }: LayoutProps) {
   const pathname = usePathname();
   const basePath = `/courses/${id}`;
 
-  const [moreOpen, setMoreOpen] = useState(false);
-  const moreRef = useRef<HTMLDivElement>(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
-        setMoreOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
   const isActiveSegment = (segment: string) =>
     segment === ""
       ? pathname === basePath
       : pathname.startsWith(`${basePath}/${segment}`);
 
-  const activeMoreItem = MORE_NAV.find((n) => isActiveSegment(n.segment));
-
   // Build breadcrumb label
-  const allNav    = [...PRIMARY_NAV, ...MORE_NAV];
-  const activeNav = allNav.find((n) => isActiveSegment(n.segment));
+  const activeNav = PRIMARY_NAV.find((n) => isActiveSegment(n.segment));
   const pageLabel = activeNav?.label ?? "";
 
   return (
@@ -129,7 +105,7 @@ export default function CourseLayout({ children }: LayoutProps) {
       {/* ── Navigation bar ─────────────────────────────────────────────────── */}
       <div className="sticky top-0 z-30 bg-white dark:bg-slate-950 border-b border-gray-200 dark:border-slate-800 -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-10 xl:-mx-12 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 flex items-center">
 
-        {/* Primary tabs — scrollable, but does NOT contain the dropdown */}
+        {/* All tabs — scrollable row */}
         <div className="flex items-center gap-0.5 overflow-x-auto hide-scrollbar flex-1 min-w-0">
           {PRIMARY_NAV.map(({ label, icon: Icon, segment }) => {
             const active = isActiveSegment(segment);
@@ -151,54 +127,6 @@ export default function CourseLayout({ children }: LayoutProps) {
           })}
         </div>
 
-        {/* More dropdown — outside the scroll container so it can overflow */}
-        <div ref={moreRef} className="relative flex-shrink-0 -mb-px">
-            <button
-              onClick={() => setMoreOpen((o) => !o)}
-              className={cn(
-                "flex items-center gap-1.5 px-4 py-3.5 text-sm font-medium whitespace-nowrap transition-all border-b-2",
-                activeMoreItem
-                  ? "border-[#1e3a8a] text-[#1e3a8a] dark:text-blue-400 dark:border-blue-400"
-                  : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-gray-300 dark:hover:border-slate-600"
-              )}
-            >
-              {              activeMoreItem ? (
-                <>
-                  <activeMoreItem.icon className="w-4 h-4 flex-shrink-0" />
-                  {activeMoreItem.label}
-                </>
-              ) : (
-                "Class Tools"
-              )}
-              <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", moreOpen && "rotate-180")} />
-            </button>
-
-            {/* Dropdown panel */}
-            {moreOpen && (
-              <div className="absolute top-full left-0 mt-1 w-52 bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 shadow-lg overflow-hidden z-50">
-                {MORE_NAV.map(({ label, icon: Icon, segment }) => {
-                  const active = isActiveSegment(segment);
-                  return (
-                    <Link
-                      key={segment}
-                      href={`${basePath}/${segment}`}
-                      onClick={() => setMoreOpen(false)}
-                      className={cn(
-                        "flex items-center gap-3 px-4 py-2.5 text-sm transition-colors",
-                        active
-                          ? "bg-[#1e3a8a]/10 text-[#1e3a8a] dark:text-blue-400 font-semibold"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800"
-                      )}
-                    >
-                      <Icon className="w-4 h-4 flex-shrink-0" />
-                      {label}
-                      {active && <ChevronRight className="w-3.5 h-3.5 ml-auto opacity-60" />}
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-          </div>
       </div>
 
       {/* ── Breadcrumb ─────────────────────────────────────────────────────── */}

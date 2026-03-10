@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Calendar, Award, Calculator, Plus, RotateCcw, ChevronRight } from "lucide-react";
+import { Calculator, Plus, RotateCcw } from "lucide-react";
 
 
 interface Assignment {
@@ -245,7 +245,7 @@ const gradeToGPA = (percentage: number): number => {
   return 0.0;
 };
 
-type TabType = "grades" | "calculator";
+type TabType = "grades" | "history" | "calculator";
 type CalcType = "course" | "semester" | "cumulative";
 
 interface CalcRow {
@@ -283,6 +283,66 @@ const percentageToLetter = (pct: number): string => {
   return "F";
 };
 
+// ─── Grade History data ──────────────────────────────────────────────────────
+
+interface HistoryCourse {
+  name: string;
+  grade: string;
+  percentage: number;
+}
+
+interface HistoryYear {
+  label: string;
+  courses: HistoryCourse[];
+}
+
+const GRADE_HISTORY: HistoryYear[] = [
+  {
+    label: "2022-2023",
+    courses: [
+      { name: "Algebra 1", grade: "A-", percentage: 91 },
+      { name: "English 9", grade: "B+", percentage: 88 },
+      { name: "Earth Science", grade: "A", percentage: 94 },
+      { name: "World History", grade: "B", percentage: 85 },
+      { name: "Intro to Art", grade: "A+", percentage: 98 },
+      { name: "Physical Education 9", grade: "A", percentage: 95 },
+      { name: "French 1", grade: "B-", percentage: 82 },
+    ],
+  },
+  {
+    label: "2023-2024",
+    courses: [
+      { name: "Geometry", grade: "A-", percentage: 92 },
+      { name: "English 10", grade: "A-", percentage: 90 },
+      { name: "Biology", grade: "B+", percentage: 88 },
+      { name: "U.S. History", grade: "B+", percentage: 87 },
+      { name: "Studio Art", grade: "A", percentage: 96 },
+      { name: "Physical Education 10", grade: "A", percentage: 93 },
+      { name: "French 2", grade: "B", percentage: 84 },
+    ],
+  },
+  {
+    label: "2024-2025",
+    courses: [
+      { name: "Algebra 2", grade: "A", percentage: 93 },
+      { name: "AP English Language", grade: "A-", percentage: 91 },
+      { name: "Chemistry", grade: "B+", percentage: 89 },
+      { name: "Government & Economics", grade: "A-", percentage: 90 },
+      { name: "Advanced Art", grade: "A+", percentage: 97 },
+      { name: "Physical Education 11", grade: "A", percentage: 94 },
+      { name: "Spanish 1", grade: "C+", percentage: 78 },
+    ],
+  },
+  {
+    label: "2025-2026",
+    courses: COURSES_DATA.map((c) => ({
+      name: c.name,
+      grade: c.grade,
+      percentage: Math.round(c.percentage),
+    })),
+  },
+];
+
 interface SemRow {
   name: string;
   credits: string;
@@ -291,6 +351,7 @@ interface SemRow {
 
 export default function GradesPage() {
   const [activeTab, setActiveTab] = useState<TabType>("grades");
+  const [historyYear, setHistoryYear] = useState(0);
   const [calcTab, setCalcTab] = useState<CalcType>("course");
 
   // Course Grades calculator state
@@ -532,33 +593,30 @@ export default function GradesPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {/* Semester GPA Card - Blue */}
+      <div className="grid grid-cols-3 gap-4">
+        {/* Current Quarter Grade - Blue */}
         <div className="bg-[#3b82f6] rounded-xl p-5 text-white">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-blue-100">Semester GPA</p>
-            <Award className="w-5 h-5 text-blue-200" />
-          </div>
-          <p className="mt-2 text-4xl font-bold">{currentGPA}</p>
-          <p className="mt-2 text-sm text-blue-100">Spring 2026</p>
+          <p className="text-sm font-medium text-blue-100">Quarter Grade</p>
+          <p className="mt-2 text-4xl font-bold">
+            {Math.round(COURSES_DATA.reduce((s, c) => s + c.percentage, 0) / COURSES_DATA.length)}%
+          </p>
+          <p className="mt-2 text-sm text-blue-100">Q2 · Spring 2026</p>
         </div>
 
-        {/* Cumulative GPA Card */}
-        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Cumulative GPA</p>
-            <Award className="w-5 h-5 text-gray-400" />
-          </div>
-          <p className="mt-2 text-4xl font-bold text-gray-900 dark:text-white">3.50</p>
+        {/* Semester Grade - Emerald */}
+        <div className="bg-emerald-600 rounded-xl p-5 text-white">
+          <p className="text-sm font-medium text-emerald-100">Semester Grade</p>
+          <p className="mt-2 text-4xl font-bold">
+            {Math.round((COURSES_DATA.reduce((s, c) => s + c.percentage, 0) / COURSES_DATA.length) + 1)}%
+          </p>
+          <p className="mt-2 text-sm text-emerald-100">S1 · Spring 2026</p>
         </div>
 
-        {/* Total Credits Card */}
+        {/* Cumulative GPA - White */}
         <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Credits</p>
-            <Calendar className="w-5 h-5 text-gray-400" />
-          </div>
-          <p className="mt-2 text-4xl font-bold text-gray-900 dark:text-white">{COURSES_DATA.reduce((sum, c) => sum + c.credits, 0)}</p>
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Cumulative GPA</p>
+          <p className="mt-2 text-4xl font-bold text-gray-900 dark:text-white">{currentGPA}</p>
+          <p className="mt-2 text-sm text-gray-400 dark:text-gray-500">4.0 Scale</p>
         </div>
       </div>
 
@@ -575,6 +633,15 @@ export default function GradesPage() {
             My Grades
           </button>
           <button
+            onClick={() => setActiveTab("history")}
+            className={`pb-3 px-1 text-sm font-medium transition-colors relative ${activeTab === "history"
+              ? "text-[#3b82f6] border-b-2 border-[#3b82f6]"
+              : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+              }`}
+          >
+            Grade History
+          </button>
+          <button
             onClick={() => setActiveTab("calculator")}
             className={`pb-3 px-1 text-sm font-medium transition-colors relative ${activeTab === "calculator"
               ? "text-[#3b82f6] border-b-2 border-[#3b82f6]"
@@ -588,44 +655,136 @@ export default function GradesPage() {
 
       {/* Tab Content: My Grades */}
       {activeTab === "grades" && (
-        <div className="space-y-6">
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+                  <th className="py-4 px-5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider min-w-[220px]">
+                    Course
+                  </th>
+                  {(["Q1", "Q2", "S1", "Q3", "Q4", "S2", "Final"] as const).map((col) => (
+                    <th
+                      key={col}
+                      className="py-4 px-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider min-w-[80px]"
+                    >
+                      {col === "Final" ? "Final Grade" : col}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {sortedCourses.map((course) => {
+                  const q1Offset = ((parseInt(course.id, 10) * 7) % 5) - 2;
+                  const q1Pct = Math.round(course.percentage + q1Offset);
+                  const q2Pct = Math.round(course.percentage);
+                  const q1Letter = percentageToLetter(q1Pct);
+                  const q2Letter = percentageToLetter(q2Pct);
+                  return (
+                    <tr
+                      key={course.id}
+                      className="border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors"
+                    >
+                      <td className="py-4 px-5">
+                        <Link
+                          href={`/courses/${course.id}`}
+                          className="group flex items-center gap-3"
+                        >
+                          <div
+                            className="w-3 h-3 rounded-full flex-shrink-0"
+                            style={{ backgroundColor: course.color }}
+                          />
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-[#1e3a8a] dark:group-hover:text-blue-400 transition-colors truncate">
+                              {course.name}
+                            </p>
+                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 truncate">
+                              {course.instructor}
+                            </p>
+                          </div>
+                        </Link>
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${getGradeColor(q1Letter)}`}>
+                          {q1Pct}%
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${getGradeColor(q2Letter)}`}>
+                          {q2Pct}%
+                        </span>
+                      </td>
+                      {["S1", "Q3", "Q4", "S2", "Final"].map((col) => (
+                        <td key={col} className="py-4 px-4 text-center">
+                          <span className="text-gray-300 dark:text-gray-600 text-xs font-medium">—</span>
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
-          {/* Course Cards */}
-          <div className="space-y-4">
-            {sortedCourses.map((course) => (
-              <Link
-                key={course.id}
-                href={`/courses/${course.id}/grades`}
-                className="block bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200 group"
+      {/* Tab Content: Grade History */}
+      {activeTab === "history" && (
+        <div className="space-y-5">
+          {/* Year tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-1">
+            {GRADE_HISTORY.map((year, i) => (
+              <button
+                key={year.label}
+                onClick={() => setHistoryYear(i)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+                  historyYear === i
+                    ? "bg-[#1e3a8a] text-white"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                }`}
               >
-                <div className="flex items-center p-4 sm:p-5">
-                  <div
-                    className="w-1 h-16 rounded-full mr-3 sm:mr-4 flex-shrink-0"
-                    style={{ backgroundColor: course.color }}
-                  />
-
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-[#1e3a8a] dark:group-hover:text-blue-400 transition-colors">
-                      {course.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      {course.instructor}
-                    </p>
-                    <div className="flex items-center gap-1 mt-2 text-sm text-gray-500 dark:text-gray-400">
-                      <Calendar className="w-4 h-4" />
-                      {course.semester}
-                    </div>
-                  </div>
-
-                  <div className={`flex flex-col items-center w-20 sm:w-24 py-2 sm:py-3 rounded-lg flex-shrink-0 ${getGradeColor(course.grade)}`}>
-                    <span className="text-xl sm:text-2xl font-bold">{course.grade}</span>
-                    <span className="text-xs sm:text-sm mt-0.5">{course.percentage}%</span>
-                  </div>
-
-                  <ChevronRight className="w-5 h-5 text-gray-300 dark:text-gray-600 ml-2 flex-shrink-0 group-hover:text-[#1e3a8a] dark:group-hover:text-blue-400 transition-colors" />
-                </div>
-              </Link>
+                {year.label}
+              </button>
             ))}
+          </div>
+
+          {/* History table */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+                  <th className="py-4 px-5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Course
+                  </th>
+                  <th className="py-4 px-5 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[100px]">
+                    Grade
+                  </th>
+                  <th className="py-4 px-5 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[100px]">
+                    %
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {GRADE_HISTORY[historyYear].courses.map((course, i) => (
+                  <tr
+                    key={i}
+                    className="border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors"
+                  >
+                    <td className="py-4 px-5 text-sm font-medium text-gray-900 dark:text-white">
+                      {course.name}
+                    </td>
+                    <td className="py-4 px-5 text-center">
+                      <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${getGradeColor(course.grade)}`}>
+                        {course.grade}
+                      </span>
+                    </td>
+                    <td className="py-4 px-5 text-center text-sm font-semibold text-gray-700 dark:text-gray-300">
+                      {course.percentage}%
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}

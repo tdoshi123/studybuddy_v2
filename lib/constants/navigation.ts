@@ -3,7 +3,7 @@ import {
   BookOpen,
   Calendar,
   BarChart3,
-
+  CalendarCheck,
   Mail,
   User,
 } from "lucide-react";
@@ -36,6 +36,13 @@ export const NAV_ITEMS: NavItemConfig[] = [
     label: "Grades",
     icon: BarChart3,
     href: "/grades",
+    position: "top",
+  },
+  {
+    id: "attendance",
+    label: "Attendance",
+    icon: CalendarCheck,
+    href: "/attendance",
     position: "top",
   },
   {
