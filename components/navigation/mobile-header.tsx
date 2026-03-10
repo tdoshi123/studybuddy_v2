@@ -13,13 +13,13 @@ export function MobileHeader() {
 
   // Get page title based on current path
   const getPageTitle = () => {
-    if (pathname === "/dashboard") return "Dashboard";
-    if (pathname === "/courses") return "Courses";
-    if (pathname.startsWith("/courses/")) return "Course";
-    if (pathname === "/calendar") return "Calendar";
-    if (pathname === "/grades") return "Grades";
-
-    if (pathname === "/inbox") return "Inbox";
+    if (pathname === "/dashboard" || pathname === "/student/dashboard") return "Dashboard";
+    if (pathname === "/student/courses") return "Courses";
+    if (pathname.startsWith("/student/courses/")) return "Course";
+    if (pathname === "/student/calendar") return "Calendar";
+    if (pathname === "/student/grades") return "Grades";
+    if (pathname === "/student/attendance") return "Attendance";
+    if (pathname === "/student/inbox") return "Inbox";
     if (pathname === "/account") return "Account";
     return "StudyBuddy";
   };
@@ -38,7 +38,7 @@ export function MobileHeader() {
         <div className="flex items-center gap-2">
           {/* Notifications Button */}
           <Link
-            href="/inbox"
+            href="/student/inbox"
             className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-manipulation"
             aria-label="Notifications"
           >

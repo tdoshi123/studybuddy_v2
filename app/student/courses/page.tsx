@@ -94,7 +94,7 @@ const MOCK_COURSES: Course[] = [
 function CourseRow({ course }: { course: Course }) {
   return (
     <Link
-      href={`/courses/${course.id}`}
+      href={`/student/courses/${course.id}`}
       className="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
     >
       {/* Color indicator */}

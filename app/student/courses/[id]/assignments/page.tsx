@@ -133,7 +133,7 @@ export default function AssignmentsPage() {
                   <td className="py-4 px-2">
                     <div className="space-y-1">
                       <Link
-                        href={`/courses/${courseId}/assignments/${assignment.id}`}
+                        href={`/student/courses/${courseId}/assignments/${assignment.id}`}
                         className="text-[#1e3a8a] hover:underline text-sm"
                       >
                         {assignment.title}

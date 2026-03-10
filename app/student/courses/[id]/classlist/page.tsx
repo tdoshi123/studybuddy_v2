@@ -419,7 +419,7 @@ export default function ClasslistPage() {
     if (selectedIds.length === 0) {
       showNoSelectionTooltip(action);
     } else if (action === "message") {
-      router.push("/inbox");
+      router.push("/student/inbox");
     } else {
       console.log(`${action} action for:`, selectedIds);
     }

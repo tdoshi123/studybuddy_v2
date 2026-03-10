@@ -12,7 +12,7 @@ interface NavItemProps {
 export function NavItem({ item }: NavItemProps) {
   const pathname = usePathname();
   const { toggleSecondarySidebar, closeSecondarySidebar, isSecondaryOpen } = useSidebar();
-  const dashboardPaths = ["/dashboard", "/student", "/parent", "/teacher", "/admin"];
+  const dashboardPaths = ["/dashboard", "/student/dashboard", "/parent", "/teacher", "/admin"];
   const isActive = item.id === "dashboard"
     ? dashboardPaths.some((p) => pathname === p || pathname.startsWith(`${p}/`))
     : pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -31,7 +31,7 @@ export function NavItem({ item }: NavItemProps) {
   };
 
   // For courses, show as active when secondary sidebar is open OR when on any /courses page
-  const isOnCoursesPage = pathname === "/courses" || pathname.startsWith("/courses/");
+  const isOnCoursesPage = pathname === "/student/courses" || pathname.startsWith("/student/courses/");
   const showAsActive = isCourses ? (isSecondaryOpen || isOnCoursesPage) : isActive;
 
   return (

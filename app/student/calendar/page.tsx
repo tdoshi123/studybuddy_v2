@@ -181,10 +181,9 @@ export default function CalendarPage() {
   const getEventLink = (event: CalendarEvent) => {
     if (event.type === "class") {
       // For classes, link to the course page
-      return `/courses/${event.courseId}`;
+      return `/student/courses/${event.courseId}`;
     } else if (event.assignmentId && event.courseId) {
-      // For assignments, quizzes, tests, projects - link to assignment page
-      return `/courses/${event.courseId}/assignments/${event.assignmentId}`;
+      return `/student/courses/${event.courseId}/assignments/${event.assignmentId}`;
     }
     return "#";
   };

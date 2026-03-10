@@ -687,7 +687,7 @@ export default function GradesPage() {
                     >
                       <td className="py-4 px-5">
                         <Link
-                          href={`/courses/${course.id}`}
+                          href={`/student/courses/${course.id}`}
                           className="group flex items-center gap-3"
                         >
                           <div

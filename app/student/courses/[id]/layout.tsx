@@ -38,7 +38,7 @@ export default function CourseLayout({ children }: LayoutProps) {
   const id       = params.id as string;
   const course   = getCourse(id);
   const pathname = usePathname();
-  const basePath = `/courses/${id}`;
+  const basePath = `/student/courses/${id}`;
 
   const isActiveSegment = (segment: string) =>
     segment === ""
@@ -132,7 +132,7 @@ export default function CourseLayout({ children }: LayoutProps) {
       {/* ── Breadcrumb ─────────────────────────────────────────────────────── */}
       {pageLabel && (
         <div className="flex items-center gap-1.5 pt-5 pb-1 text-xs text-gray-400 dark:text-slate-500">
-          <Link href="/courses" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+          <Link href="/student/courses" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
             Courses
           </Link>
           <ChevronRight className="w-3 h-3" />

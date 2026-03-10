@@ -52,11 +52,11 @@ export function SecondarySidebar() {
           <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
             {/* All Courses */}
             <Link
-              href="/courses"
+              href="/student/courses"
               onClick={() => closeSecondarySidebar()}
               className={cn(
                 "flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200",
-                pathname === "/courses"
+                pathname === "/student/courses"
                   ? "bg-[#1e3a8a]/10 text-[#1e3a8a] dark:text-blue-400 font-semibold"
                   : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800"
               )}
@@ -69,7 +69,7 @@ export function SecondarySidebar() {
 
             {/* Enrolled Courses */}
             {ENROLLED_COURSES.map((course) => {
-              const courseHref = `/courses/${course.id}`;
+              const courseHref = `/student/courses/${course.id}`;
               const isActive = pathname === courseHref || pathname.startsWith(`${courseHref}/`);
 
               return (

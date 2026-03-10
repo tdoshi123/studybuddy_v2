@@ -133,7 +133,7 @@ export default function QuizzesPage() {
                   <td className="py-4 px-2">
                     <div className="space-y-1">
                       <Link
-                        href={`/courses/${courseId}/quizzes/${quiz.id}`}
+                        href={`/student/courses/${courseId}/quizzes/${quiz.id}`}
                         className="text-[#1e3a8a] hover:underline text-sm"
                       >
                         {quiz.title}
