@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import { useTheme } from "@/components/theme/theme-provider";
 import {
   Bell, Globe, Shield, Save, User, Monitor, Sun, Moon,
-  CheckCircle2, Camera, Key, Laptop,
+  CheckCircle2, Camera, Key, Laptop, RefreshCw,
 } from "lucide-react";
 
 /* ─── Reusable primitives ───────────────────────────────────── */
@@ -91,6 +92,7 @@ const NAV_SECTIONS = [
 /* ─── Page ──────────────────────────────────────────────────── */
 export default function SettingsPage() {
   const { user } = useUser();
+  const currentRole = (user?.unsafeMetadata?.role as string) ?? null;
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [activeSection, setActiveSection] = useState("profile");
   const [saved, setSaved] = useState(false);
@@ -135,16 +137,30 @@ export default function SettingsPage() {
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Settings</h1>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Manage your profile, notifications, and preferences.</p>
         </div>
-        <button
-          type="button"
-          onClick={save}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm transition-all flex-shrink-0 ${
-            saved ? "bg-emerald-600 text-white" : "bg-[#1e3a8a] hover:bg-blue-700 text-white"
-          }`}
-        >
-          {saved ? <CheckCircle2 className="w-4 h-4" /> : <Save className="w-4 h-4" />}
-          {saved ? "Saved!" : "Save changes"}
-        </button>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          {currentRole && (
+            <Link
+              href="/onboarding"
+              className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Switch role
+              <span className="text-xs font-semibold text-[#1e3a8a] dark:text-blue-400 capitalize">
+                ({currentRole})
+              </span>
+            </Link>
+          )}
+          <button
+            type="button"
+            onClick={save}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm transition-all ${
+              saved ? "bg-emerald-600 text-white" : "bg-[#1e3a8a] hover:bg-blue-700 text-white"
+            }`}
+          >
+            {saved ? <CheckCircle2 className="w-4 h-4" /> : <Save className="w-4 h-4" />}
+            {saved ? "Saved!" : "Save changes"}
+          </button>
+        </div>
       </div>
 
       {/* ── Two-column layout ────────────────────────────────────── */}
