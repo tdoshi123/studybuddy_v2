@@ -11,6 +11,11 @@ import {
   HelpCircle,
   MessageCircle,
   Megaphone,
+  FileText,
+  ClipboardCheck,
+  Bus,
+  School,
+  MessageSquare,
 } from "lucide-react";
 import { NavItemConfig } from "@/lib/types/navigation";
 
@@ -58,10 +63,10 @@ export const NAV_ITEMS: NavItemConfig[] = [
     position: "top",
   },
   {
-    id: "account",
-    label: "Account",
-    icon: User,
-    href: "/account",
+    id: "settings",
+    label: "Settings",
+    icon: Settings,
+    href: "/lis/student/settings",
     position: "bottom",
   },
 ];
@@ -132,9 +137,97 @@ export const TEACHER_NAV_ITEMS: NavItemConfig[] = [
   },
 ];
 
+export const PARENT_NAV_ITEMS: NavItemConfig[] = [
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: Home,
+    href: "/sis/parent/dashboard",
+    position: "top",
+  },
+  {
+    id: "grades-attendance",
+    label: "Grades & Attendance",
+    icon: BarChart3,
+    href: "/sis/parent/grades-attendance",
+    position: "top",
+  },
+  {
+    id: "test-results",
+    label: "Test Results",
+    icon: ClipboardCheck,
+    href: "/sis/parent/test-results",
+    position: "top",
+  },
+  {
+    id: "grade-history",
+    label: "Grade History",
+    icon: BarChart3,
+    href: "/sis/parent/grade-history",
+    position: "top",
+  },
+  {
+    id: "teacher-comments",
+    label: "Teacher Comments",
+    icon: MessageSquare,
+    href: "/sis/parent/teacher-comments",
+    position: "top",
+  },
+  {
+    id: "student-forms",
+    label: "Student Forms",
+    icon: ClipboardList,
+    href: "/sis/parent/student-forms",
+    position: "top",
+  },
+  {
+    id: "student-schedule",
+    label: "Schedule",
+    icon: Calendar,
+    href: "/sis/parent/student-schedule",
+    position: "top",
+  },
+  {
+    id: "class-registration",
+    label: "Registration",
+    icon: ClipboardList,
+    href: "/sis/parent/class-registration",
+    position: "top",
+  },
+  {
+    id: "school-information",
+    label: "School Information",
+    icon: School,
+    href: "/sis/parent/school-information",
+    position: "top",
+  },
+  {
+    id: "transportation-info",
+    label: "Transportation",
+    icon: Bus,
+    href: "/sis/parent/transportation-info",
+    position: "top",
+  },
+  {
+    id: "settings",
+    label: "Settings",
+    icon: Settings,
+    href: "/sis/parent/settings",
+    position: "bottom",
+  },
+];
+
 export const SIDEBAR_CONFIG = {
-  primaryWidth: 84,
+  studentWidth: 72,
+  teacherWidth: 84,
+  parentWidth: 190,
   secondaryWidth: 280,
   primaryBg: "#1e3a8a",
   secondaryBg: "#1e293b",
 } as const;
+
+export function getSidebarWidth(pathname: string | null): number {
+  if (pathname?.startsWith("/sis/parent")) return SIDEBAR_CONFIG.parentWidth;
+  if (pathname?.startsWith("/lis/teacher")) return SIDEBAR_CONFIG.teacherWidth;
+  return SIDEBAR_CONFIG.studentWidth;
+}

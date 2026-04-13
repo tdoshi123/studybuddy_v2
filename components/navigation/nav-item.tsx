@@ -8,13 +8,16 @@ import { useSidebar } from "./sidebar-provider";
 
 interface NavItemProps {
   item: NavItemConfig;
+  horizontal?: boolean;
 }
 
-export function NavItem({ item }: NavItemProps) {
+export function NavItem({ item, horizontal = false }: NavItemProps) {
   const pathname = usePathname();
   const { toggleSecondarySidebar, closeSecondarySidebar, isSecondaryOpen } = useSidebar();
-  const isActive =
-    pathname === item.href || (pathname?.startsWith(`${item.href}/`) ?? false);
+  const isDashboard = item.id === "dashboard";
+  const isActive = isDashboard
+    ? pathname === item.href
+    : pathname === item.href || (pathname?.startsWith(`${item.href}/`) ?? false);
   const isCourses = item.id === "courses";
   const Icon = item.icon;
 
@@ -32,6 +35,43 @@ export function NavItem({ item }: NavItemProps) {
   const isOnCoursesPage =
     pathname === coursesPath || (pathname?.startsWith(`${coursesPath}/`) ?? false);
   const showAsActive = isCourses ? (isSecondaryOpen || isOnCoursesPage) : isActive;
+
+  if (horizontal) {
+    return (
+      <Link
+        href={isCourses ? "#" : item.href}
+        onClick={handleClick}
+        className={cn(
+          "group relative flex items-center gap-2.5 px-4 py-2.5 min-h-[52px] transition-all duration-200",
+          showAsActive
+            ? "bg-white rounded-none"
+            : "hover:bg-white/20"
+        )}
+        aria-label={item.label}
+        aria-current={showAsActive ? "page" : undefined}
+      >
+        <Icon
+          className={cn(
+            "w-5 h-5 flex-shrink-0 transition-colors duration-200",
+            showAsActive
+              ? "text-[#1e3a8a]"
+              : "text-white/60 group-hover:text-white"
+          )}
+          strokeWidth={showAsActive ? 2.5 : 2}
+        />
+        <span
+          className={cn(
+            "text-[13px] font-semibold leading-tight transition-colors duration-200",
+            showAsActive
+              ? "text-[#1e3a8a]"
+              : "text-white/60 group-hover:text-white"
+          )}
+        >
+          {item.label}
+        </span>
+      </Link>
+    );
+  }
 
   return (
     <Link

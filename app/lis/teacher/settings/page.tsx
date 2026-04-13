@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useTheme } from "@/components/theme/theme-provider";
 import {

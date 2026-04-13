@@ -29,7 +29,18 @@ export function MobileHeader() {
     if (pathname === "/lis/teacher/gradebook") return "Gradebook";
     if (pathname === "/lis/teacher/inbox") return "Inbox";
     if (pathname === "/lis/teacher/settings") return "Settings";
-    if (pathname === "/account") return "Account";
+    if (pathname === "/sis/parent/dashboard") return "Dashboard";
+    if (pathname === "/sis/parent/grades-attendance") return "Grades & Attendance";
+    if (pathname === "/sis/parent/test-results") return "Test Results";
+    if (pathname === "/sis/parent/grade-history") return "Grade History";
+    if (pathname === "/sis/parent/state-test-reports") return "State Tests";
+    if (pathname === "/sis/parent/teacher-comments") return "Teacher Comments";
+    if (pathname === "/sis/parent/student-forms") return "Student Forms";
+    if (pathname === "/sis/parent/student-schedule") return "Schedule";
+    if (pathname === "/sis/parent/school-information") return "School Info";
+    if (pathname === "/sis/parent/settings") return "Settings";
+    if (pathname === "/lis/student/settings") return "Settings";
+    if (pathname === "/sis/parent/transportation-info") return "Transportation";
     return "StudyBuddy";
   };
 
@@ -43,7 +54,7 @@ export function MobileHeader() {
         </h1>
         <div className="flex items-center gap-2">
           <Link
-            href={pathname?.startsWith("/lis/teacher") ? "/lis/teacher/inbox" : "/lis/student/inbox"}
+            href={pathname?.startsWith("/sis/parent") ? "/sis/parent/dashboard" : pathname?.startsWith("/lis/teacher") ? "/lis/teacher/inbox" : "/lis/student/inbox"}
             className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-manipulation"
             aria-label="Notifications"
           >

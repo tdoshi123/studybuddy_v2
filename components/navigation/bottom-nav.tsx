@@ -2,15 +2,16 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { NAV_ITEMS, TEACHER_NAV_ITEMS } from "@/lib/constants/navigation";
+import { NAV_ITEMS, TEACHER_NAV_ITEMS, PARENT_NAV_ITEMS } from "@/lib/constants/navigation";
 import { useNotifications } from "@/lib/hooks";
 
 export function BottomNav() {
   const pathname = usePathname();
   const notifications = useNotifications();
   const isTeacher = pathname?.startsWith("/lis/teacher");
+  const isParent = pathname?.startsWith("/sis/parent");
 
-  const allItems = isTeacher ? TEACHER_NAV_ITEMS : NAV_ITEMS;
+  const allItems = isParent ? PARENT_NAV_ITEMS : isTeacher ? TEACHER_NAV_ITEMS : NAV_ITEMS;
   const mobileNavItems = allItems.filter(
     (item) => item.position !== "bottom" && item.id !== "account"
   ).slice(0, 5);

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
-import { SIDEBAR_CONFIG } from "@/lib/constants/navigation";
+import { SIDEBAR_CONFIG, getSidebarWidth } from "@/lib/constants/navigation";
 import { useSidebar } from "./sidebar-provider";
 import { cn } from "@/lib/utils";
 
@@ -41,7 +41,7 @@ export function SecondarySidebar() {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className="fixed top-0 h-screen z-40 shadow-2xl flex flex-col bg-white dark:bg-slate-900"
           style={{
-            left: SIDEBAR_CONFIG.primaryWidth,
+            left: getSidebarWidth(pathname),
             width: SIDEBAR_CONFIG.secondaryWidth,
           }}
         >

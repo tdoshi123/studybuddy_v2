@@ -7,7 +7,7 @@ import {
   useCallback,
   ReactNode,
 } from "react";
-import { SIDEBAR_CONFIG } from "@/lib/constants/navigation";
+import { getSidebarWidth } from "@/lib/constants/navigation";
 
 interface SidebarContextValue {
   isSecondaryOpen: boolean;
@@ -46,8 +46,7 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
     setIsSecondaryOpen(false);
   }, []);
 
-  // Content always has the same padding - secondary sidebar overlays, doesn't push
-  const contentPaddingLeft = SIDEBAR_CONFIG.primaryWidth;
+  const contentPaddingLeft = getSidebarWidth(null);
 
   return (
     <SidebarContext.Provider

@@ -23,7 +23,7 @@ export default async function DashboardPage() {
     case "student":
       redirect("/lis/student/dashboard");
     case "parent":
-      redirect("/lis/parent");
+      redirect("/sis/parent/dashboard");
     case "teacher":
       redirect("/lis/teacher/dashboard");
     case "admin":

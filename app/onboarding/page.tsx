@@ -5,6 +5,13 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { User, Users, GraduationCap, Shield, CheckCircle2 } from "lucide-react";
 
+const ROLE_HOME: Record<string, string> = {
+  student: "/lis/student/dashboard",
+  parent: "/sis/parent/dashboard",
+  teacher: "/lis/teacher/dashboard",
+  admin: "/sis/admin",
+};
+
 const ROLES = [
   {
     id: "student",
@@ -57,8 +64,8 @@ export default function OnboardingPage() {
       await user.update({
         unsafeMetadata: { role: selectedRole },
       });
-      // Reload so the server-side page.tsx reads the fresh metadata
-      router.push("/dashboard");
+      const href = ROLE_HOME[selectedRole] ?? "/dashboard";
+      router.push(href);
       router.refresh();
     } catch (err) {
       console.error("Error updating role:", err);
