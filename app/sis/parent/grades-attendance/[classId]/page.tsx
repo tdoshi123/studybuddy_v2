@@ -2,7 +2,7 @@
 
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, BarChart3, Mail, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { ArrowLeft, BarChart3, Mail, TrendingUp, TrendingDown, Minus, Check, X } from "lucide-react";
 
 interface Assignment {
   id: string;
@@ -20,11 +20,13 @@ interface ClassInfo {
   id: string;
   course: string;
   teacher: string;
+  teacherEmail: string;
   room: string;
   period: string;
   q1: number | null;
   q2: number | null;
   q3: number | null;
+  q4: number | null;
   studentName: string;
   assignments: Assignment[];
 }
@@ -32,13 +34,13 @@ interface ClassInfo {
 const CLASS_DETAILS: Record<string, Record<string, ClassInfo>> = {
   "1": {
     c1: {
-      id: "c1", course: "Homeroom Grade 05", teacher: "Julia Arlington", room: "A138", period: "1(A-D)",
-      q1: null, q2: null, q3: null, studentName: "Alex Johnson",
+      id: "c1", course: "Homeroom Grade 05", teacher: "Julia Arlington", teacherEmail: "jarlington@school.edu", room: "A138", period: "1(A-D)",
+      q1: null, q2: null, q3: null, q4: null, studentName: "Alex Johnson",
       assignments: [],
     },
     c2: {
-      id: "c2", course: "Language Arts Grade 5", teacher: "Julia Arlington", room: "314/Artigo", period: "2(A-D)",
-      q1: 85, q2: 85, q3: 94, studentName: "Alex Johnson",
+      id: "c2", course: "Language Arts Grade 5", teacher: "Julia Arlington", teacherEmail: "jarlington@school.edu", room: "314/Artigo", period: "2(A-D)",
+      q1: 85, q2: 85, q3: 94, q4: null, studentName: "Alex Johnson",
       assignments: [
         { id: "a1", name: "Narrative Essay – Personal Experience", category: "Writing", dateAssigned: "2026-01-06", dateDue: "2026-01-13", score: 92, maxScore: 100, weight: 15, status: "graded" },
         { id: "a2", name: "Reading Comprehension Quiz Ch. 12", category: "Quizzes", dateAssigned: "2026-01-10", dateDue: "2026-01-10", score: 88, maxScore: 100, weight: 10, status: "graded" },
@@ -51,8 +53,8 @@ const CLASS_DETAILS: Record<string, Record<string, ClassInfo>> = {
       ],
     },
     c3: {
-      id: "c3", course: "Math Grade 5", teacher: "Julia Arlington", room: "314/Artigo", period: "3(A-D)",
-      q1: 81, q2: 81, q3: 80, studentName: "Alex Johnson",
+      id: "c3", course: "Math Grade 5", teacher: "Julia Arlington", teacherEmail: "jarlington@school.edu", room: "314/Artigo", period: "3(A-D)",
+      q1: 81, q2: 81, q3: 80, q4: null, studentName: "Alex Johnson",
       assignments: [
         { id: "m1", name: "Fractions & Decimals Quiz", category: "Quizzes", dateAssigned: "2026-01-06", dateDue: "2026-01-08", score: 78, maxScore: 100, weight: 10, status: "graded" },
         { id: "m2", name: "Chapter 9 Test – Geometry", category: "Tests", dateAssigned: "2026-01-13", dateDue: "2026-01-15", score: 82, maxScore: 100, weight: 25, status: "graded" },
@@ -65,8 +67,8 @@ const CLASS_DETAILS: Record<string, Record<string, ClassInfo>> = {
       ],
     },
     c4: {
-      id: "c4", course: "Science Grade 5", teacher: "Julia Arlington", room: "314/Artigo", period: "4(A-D)",
-      q1: 81, q2: 81, q3: 84, studentName: "Alex Johnson",
+      id: "c4", course: "Science Grade 5", teacher: "Julia Arlington", teacherEmail: "jarlington@school.edu", room: "314/Artigo", period: "4(A-D)",
+      q1: 81, q2: 81, q3: 84, q4: null, studentName: "Alex Johnson",
       assignments: [
         { id: "s1", name: "Weather Patterns Lab Report", category: "Labs", dateAssigned: "2026-01-06", dateDue: "2026-01-13", score: 88, maxScore: 100, weight: 20, status: "graded" },
         { id: "s2", name: "Chapter 7 Quiz – Earth's Atmosphere", category: "Quizzes", dateAssigned: "2026-01-10", dateDue: "2026-01-10", score: 80, maxScore: 100, weight: 10, status: "graded" },
@@ -77,8 +79,8 @@ const CLASS_DETAILS: Record<string, Record<string, ClassInfo>> = {
       ],
     },
     c5: {
-      id: "c5", course: "Social Studies Grade 5", teacher: "Julia Arlington", room: "314/Artigo", period: "5(A-D)",
-      q1: 88, q2: 81, q3: 85, studentName: "Alex Johnson",
+      id: "c5", course: "Social Studies Grade 5", teacher: "Julia Arlington", teacherEmail: "jarlington@school.edu", room: "314/Artigo", period: "5(A-D)",
+      q1: 88, q2: 81, q3: 85, q4: null, studentName: "Alex Johnson",
       assignments: [
         { id: "ss1", name: "Colonial America Map Activity", category: "Homework", dateAssigned: "2026-01-06", dateDue: "2026-01-08", score: 90, maxScore: 100, weight: 5, status: "graded" },
         { id: "ss2", name: "Chapter 11 Quiz – American Revolution", category: "Quizzes", dateAssigned: "2026-01-10", dateDue: "2026-01-10", score: 84, maxScore: 100, weight: 10, status: "graded" },
@@ -89,8 +91,8 @@ const CLASS_DETAILS: Record<string, Record<string, ClassInfo>> = {
       ],
     },
     c6: {
-      id: "c6", course: "Art Grade 5", teacher: "Michael H. Garrett", room: "ART", period: "3B(A)",
-      q1: null, q2: null, q3: null, studentName: "Alex Johnson",
+      id: "c6", course: "Art Grade 5", teacher: "Michael H. Garrett", teacherEmail: "mgarrett@school.edu", room: "ART", period: "3B(A)",
+      q1: null, q2: null, q3: null, q4: null, studentName: "Alex Johnson",
       assignments: [
         { id: "ar1", name: "Self-Portrait – Mixed Media", category: "Projects", dateAssigned: "2026-01-06", dateDue: "2026-01-17", score: null, maxScore: 100, weight: 30, status: "graded" },
         { id: "ar2", name: "Color Theory Worksheet", category: "Homework", dateAssigned: "2026-01-13", dateDue: "2026-01-15", score: null, maxScore: 100, weight: 10, status: "graded" },
@@ -98,24 +100,24 @@ const CLASS_DETAILS: Record<string, Record<string, ClassInfo>> = {
       ],
     },
     c7: {
-      id: "c7", course: "Music Grade 5", teacher: "Virginia B. Williamson", room: "MUSIC", period: "3B(B)",
-      q1: null, q2: null, q3: null, studentName: "Alex Johnson",
+      id: "c7", course: "Music Grade 5", teacher: "Virginia B. Williamson", teacherEmail: "vwilliamson@school.edu", room: "MUSIC", period: "3B(B)",
+      q1: null, q2: null, q3: null, q4: null, studentName: "Alex Johnson",
       assignments: [
         { id: "mu1", name: "Recorder Performance – Hot Cross Buns", category: "Performance", dateAssigned: "2026-01-06", dateDue: "2026-01-10", score: null, maxScore: 100, weight: 25, status: "graded" },
         { id: "mu2", name: "Music Theory Quiz – Note Reading", category: "Quizzes", dateAssigned: "2026-01-13", dateDue: "2026-01-13", score: null, maxScore: 100, weight: 15, status: "graded" },
       ],
     },
     c8: {
-      id: "c8", course: "Physical Education Grade 5", teacher: "Catherine Old", room: "GYM", period: "3B(C)",
-      q1: null, q2: null, q3: null, studentName: "Alex Johnson",
+      id: "c8", course: "Physical Education Grade 5", teacher: "Catherine Old", teacherEmail: "cold@school.edu", room: "GYM", period: "3B(C)",
+      q1: null, q2: null, q3: null, q4: null, studentName: "Alex Johnson",
       assignments: [
         { id: "pe1", name: "Fitness Assessment – Mile Run", category: "Performance", dateAssigned: "2026-01-10", dateDue: "2026-01-10", score: null, maxScore: 100, weight: 25, status: "graded" },
         { id: "pe2", name: "Team Sports Participation", category: "Participation", dateAssigned: "2026-01-06", dateDue: "2026-01-31", score: null, maxScore: 100, weight: 50, status: "graded" },
       ],
     },
     c9: {
-      id: "c9", course: "STEM Grade 5", teacher: "Jessica Gray", room: "A126", period: "3B(D)",
-      q1: null, q2: null, q3: null, studentName: "Alex Johnson",
+      id: "c9", course: "STEM Grade 5", teacher: "Jessica Gray", teacherEmail: "jgray@school.edu", room: "A126", period: "3B(D)",
+      q1: null, q2: null, q3: null, q4: null, studentName: "Alex Johnson",
       assignments: [
         { id: "st1", name: "Bridge Building Challenge", category: "Projects", dateAssigned: "2026-01-06", dateDue: "2026-01-17", score: null, maxScore: 100, weight: 30, status: "graded" },
         { id: "st2", name: "Coding Exercise – Scratch Animation", category: "Labs", dateAssigned: "2026-01-20", dateDue: "2026-01-24", score: null, maxScore: 100, weight: 20, status: "graded" },
@@ -124,13 +126,13 @@ const CLASS_DETAILS: Record<string, Record<string, ClassInfo>> = {
   },
   "2": {
     e1: {
-      id: "e1", course: "Homeroom Grade 03", teacher: "Sarah Mitchell", room: "B205", period: "1(A-D)",
-      q1: null, q2: null, q3: null, studentName: "Emma Johnson",
+      id: "e1", course: "Homeroom Grade 03", teacher: "Sarah Mitchell", teacherEmail: "smitchell@school.edu", room: "B205", period: "1(A-D)",
+      q1: null, q2: null, q3: null, q4: null, studentName: "Emma Johnson",
       assignments: [],
     },
     e2: {
-      id: "e2", course: "Language Arts Grade 3", teacher: "Sarah Mitchell", room: "B205", period: "2(A-D)",
-      q1: 95, q2: 97, q3: 98, studentName: "Emma Johnson",
+      id: "e2", course: "Language Arts Grade 3", teacher: "Sarah Mitchell", teacherEmail: "smitchell@school.edu", room: "B205", period: "2(A-D)",
+      q1: 95, q2: 97, q3: 98, q4: null, studentName: "Emma Johnson",
       assignments: [
         { id: "ea1", name: "Story Writing – My Favorite Day", category: "Writing", dateAssigned: "2026-01-06", dateDue: "2026-01-10", score: 98, maxScore: 100, weight: 15, status: "graded" },
         { id: "ea2", name: "Sight Words Quiz #15", category: "Quizzes", dateAssigned: "2026-01-08", dateDue: "2026-01-08", score: 100, maxScore: 100, weight: 10, status: "graded" },
@@ -143,8 +145,8 @@ const CLASS_DETAILS: Record<string, Record<string, ClassInfo>> = {
       ],
     },
     e3: {
-      id: "e3", course: "Math Grade 3", teacher: "Sarah Mitchell", room: "B205", period: "3(A-D)",
-      q1: 92, q2: 94, q3: 96, studentName: "Emma Johnson",
+      id: "e3", course: "Math Grade 3", teacher: "Sarah Mitchell", teacherEmail: "smitchell@school.edu", room: "B205", period: "3(A-D)",
+      q1: 92, q2: 94, q3: 96, q4: null, studentName: "Emma Johnson",
       assignments: [
         { id: "em1", name: "Addition & Subtraction Timed Test", category: "Quizzes", dateAssigned: "2026-01-06", dateDue: "2026-01-06", score: 95, maxScore: 100, weight: 10, status: "graded" },
         { id: "em2", name: "Chapter 7 Test – Multiplication", category: "Tests", dateAssigned: "2026-01-10", dateDue: "2026-01-13", score: 94, maxScore: 100, weight: 25, status: "graded" },
@@ -155,8 +157,8 @@ const CLASS_DETAILS: Record<string, Record<string, ClassInfo>> = {
       ],
     },
     e4: {
-      id: "e4", course: "Science Grade 3", teacher: "Sarah Mitchell", room: "B205", period: "4(A-D)",
-      q1: 90, q2: 93, q3: 95, studentName: "Emma Johnson",
+      id: "e4", course: "Science Grade 3", teacher: "Sarah Mitchell", teacherEmail: "smitchell@school.edu", room: "B205", period: "4(A-D)",
+      q1: 90, q2: 93, q3: 95, q4: null, studentName: "Emma Johnson",
       assignments: [
         { id: "es1", name: "Plant Life Cycle Observation Journal", category: "Labs", dateAssigned: "2026-01-06", dateDue: "2026-01-17", score: 95, maxScore: 100, weight: 20, status: "graded" },
         { id: "es2", name: "Chapter 5 Quiz – Living Things", category: "Quizzes", dateAssigned: "2026-01-10", dateDue: "2026-01-10", score: 92, maxScore: 100, weight: 10, status: "graded" },
@@ -166,8 +168,8 @@ const CLASS_DETAILS: Record<string, Record<string, ClassInfo>> = {
       ],
     },
     e5: {
-      id: "e5", course: "Social Studies Grade 3", teacher: "Sarah Mitchell", room: "B205", period: "5(A-D)",
-      q1: 88, q2: 91, q3: 93, studentName: "Emma Johnson",
+      id: "e5", course: "Social Studies Grade 3", teacher: "Sarah Mitchell", teacherEmail: "smitchell@school.edu", room: "B205", period: "5(A-D)",
+      q1: 88, q2: 91, q3: 93, q4: null, studentName: "Emma Johnson",
       assignments: [
         { id: "ess1", name: "Community Helpers Poster", category: "Projects", dateAssigned: "2026-01-06", dateDue: "2026-01-13", score: 95, maxScore: 100, weight: 20, status: "graded" },
         { id: "ess2", name: "Map Skills Quiz", category: "Quizzes", dateAssigned: "2026-01-10", dateDue: "2026-01-10", score: 90, maxScore: 100, weight: 10, status: "graded" },
@@ -246,15 +248,18 @@ export default function ClassGradesPage() {
   const totalWeight = gradedAssignments.reduce((sum, a) => sum + a.weight, 0);
   const overallPct = totalWeight > 0 ? Math.round((totalWeightedScore / totalWeight) * 100) : null;
 
-  const categories = [...new Set(classInfo.assignments.map(a => a.category))];
-  const categoryStats = categories.map(cat => {
-    const catAssignments = classInfo.assignments.filter(a => a.category === cat);
-    const catGraded = catAssignments.filter(a => a.status === "graded" && a.score !== null);
-    const catAvg = catGraded.length
-      ? Math.round(catGraded.reduce((s, a) => s + (a.score! / a.maxScore) * 100, 0) / catGraded.length)
-      : null;
-    return { category: cat, count: catAssignments.length, graded: catGraded.length, avg: catAvg };
-  });
+  const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri"] as const;
+  type AttendanceStatus = "present" | "absent" | "tardy" | "future";
+  const weekAttendance: AttendanceStatus[] = (() => {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    return weekDays.map((_, i) => {
+      const dayNum = i + 1;
+      if (dayNum > dayOfWeek) return "future";
+      if (dayNum === 3 && classInfo.id === "c3") return "tardy";
+      return "present";
+    });
+  })();
 
   return (
     <div className="space-y-6">
@@ -273,8 +278,11 @@ export default function ClassGradesPage() {
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{classInfo.course}</h1>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <Mail className="w-3.5 h-3.5 text-blue-500" />
-              <span className="text-sm text-gray-500 dark:text-gray-400">{classInfo.teacher} · Period {classInfo.period} · Room {classInfo.room}</span>
+              <a href={`mailto:${classInfo.teacherEmail}`} className="inline-flex items-center gap-1.5 hover:text-blue-600 dark:hover:text-blue-300 transition-colors group/email">
+                <Mail className="w-3.5 h-3.5 text-blue-500 group-hover/email:text-blue-600 dark:group-hover/email:text-blue-300" />
+                <span className="text-sm text-gray-500 dark:text-gray-400 group-hover/email:text-blue-600 dark:group-hover/email:text-blue-300 group-hover/email:underline">{classInfo.teacher}</span>
+              </a>
+              <span className="text-sm text-gray-500 dark:text-gray-400">· Period {classInfo.period} · Room {classInfo.room}</span>
             </div>
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Student: {classInfo.studentName}</p>
           </div>
@@ -296,8 +304,8 @@ export default function ClassGradesPage() {
         {/* Quarter grades */}
         <div className="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm p-5">
           <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Quarter Grades</h3>
-          <div className="grid grid-cols-3 gap-3">
-            {(["q1", "q2", "q3"] as const).map((q, i) => {
+          <div className="grid grid-cols-4 gap-3">
+            {(["q1", "q2", "q3", "q4"] as const).map((q, i) => {
               const val = classInfo[q];
               return (
                 <div key={q} className="text-center p-3 rounded-lg bg-gray-50 dark:bg-slate-800/50">
@@ -314,23 +322,37 @@ export default function ClassGradesPage() {
           </div>
         </div>
 
-        {/* Category breakdown */}
+        {/* Week Attendance */}
         <div className="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm p-5">
-          <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Category Averages</h3>
-          <div className="space-y-2">
-            {categoryStats.map(cs => (
-              <div key={cs.category} className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-700 dark:text-gray-300">{cs.category}</span>
-                  <span className="text-[10px] text-gray-400 dark:text-gray-500">({cs.graded}/{cs.count})</span>
+          <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Week Attendance</h3>
+          <div className="grid grid-cols-5 gap-2">
+            {weekDays.map((day, i) => {
+              const status = weekAttendance[i];
+              return (
+                <div key={day} className="text-center">
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">{day}</p>
+                  <div className={`w-9 h-9 rounded-full mx-auto flex items-center justify-center ${
+                    status === "present" ? "bg-emerald-100 dark:bg-emerald-950/40" :
+                    status === "absent" ? "bg-red-100 dark:bg-red-950/40" :
+                    status === "tardy" ? "bg-amber-100 dark:bg-amber-950/40" :
+                    "bg-gray-100 dark:bg-slate-800"
+                  }`}>
+                    {status === "present" && <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
+                    {status === "absent" && <X className="w-4 h-4 text-red-600 dark:text-red-400" />}
+                    {status === "tardy" && <span className="text-xs font-bold text-amber-600 dark:text-amber-400">T</span>}
+                    {status === "future" && <Minus className="w-4 h-4 text-gray-300 dark:text-gray-600" />}
+                  </div>
+                  <p className={`text-[10px] font-medium mt-1 ${
+                    status === "present" ? "text-emerald-600 dark:text-emerald-400" :
+                    status === "absent" ? "text-red-600 dark:text-red-400" :
+                    status === "tardy" ? "text-amber-600 dark:text-amber-400" :
+                    "text-gray-300 dark:text-gray-600"
+                  }`}>
+                    {status === "present" ? "Present" : status === "absent" ? "Absent" : status === "tardy" ? "Tardy" : "—"}
+                  </p>
                 </div>
-                {cs.avg !== null ? (
-                  <span className={`text-sm font-bold ${pctColor(cs.avg)}`}>{cs.avg}%</span>
-                ) : (
-                  <span className="text-sm font-bold text-gray-300 dark:text-gray-600">—</span>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

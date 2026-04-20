@@ -16,10 +16,14 @@ interface ClassRow {
   period: string;
   course: string;
   teacher: string;
+  teacherEmail: string;
   room: string;
   q1: number | null;
   q2: number | null;
   q3: number | null;
+  q4: number | null;
+  s1: number | null;
+  s2: number | null;
   absences: number;
   tardies: number;
   lastWeek: string[];
@@ -27,23 +31,23 @@ interface ClassRow {
 }
 
 const ALEX_CLASSES: ClassRow[] = [
-  { id: "c1", period: "1(A-D)", course: "Homeroom Grade 05", teacher: "Julia Arlington", room: "A138", q1: null, q2: null, q3: null, absences: 4, tardies: 0, lastWeek: ["", "2A", "2A", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "c2", period: "2(A-D)", course: "Language Arts Grade 5", teacher: "Julia Arlington", room: "314/Artigo", q1: 85, q2: 85, q3: 94, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "c3", period: "3(A-D)", course: "Math Grade 5", teacher: "Julia Arlington", room: "314/Artigo", q1: 81, q2: 81, q3: 80, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "c4", period: "4(A-D)", course: "Science Grade 5", teacher: "Julia Arlington", room: "314/Artigo", q1: 81, q2: 81, q3: 84, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "c5", period: "5(A-D)", course: "Social Studies Grade 5", teacher: "Julia Arlington", room: "314/Artigo", q1: 88, q2: 81, q3: 85, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "c6", period: "3B(A)", course: "Art Grade 5", teacher: "Michael H. Garrett", room: "ART", q1: null, q2: null, q3: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "c7", period: "3B(B)", course: "Music Grade 5", teacher: "Virginia B. Williamson", room: "MUSIC", q1: null, q2: null, q3: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "c8", period: "3B(C)", course: "Physical Education Grade 5", teacher: "Catherine Old", room: "GYM", q1: null, q2: null, q3: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "c9", period: "3B(D)", course: "STEM Grade 5", teacher: "Jessica Gray", room: "A126", q1: null, q2: null, q3: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "c1", period: "1(A-D)", course: "Homeroom Grade 05", teacher: "Julia Arlington", teacherEmail: "jarlington@school.edu", room: "A138", q1: null, q2: null, q3: null, q4: null, s1: null, s2: null, absences: 4, tardies: 0, lastWeek: ["", "2A", "2A", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "c2", period: "2(A-D)", course: "Language Arts Grade 5", teacher: "Julia Arlington", teacherEmail: "jarlington@school.edu", room: "314/Artigo", q1: 85, q2: 85, q3: 94, q4: null, s1: 85, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "c3", period: "3(A-D)", course: "Math Grade 5", teacher: "Julia Arlington", teacherEmail: "jarlington@school.edu", room: "314/Artigo", q1: 81, q2: 81, q3: 80, q4: null, s1: 81, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "c4", period: "4(A-D)", course: "Science Grade 5", teacher: "Julia Arlington", teacherEmail: "jarlington@school.edu", room: "314/Artigo", q1: 81, q2: 81, q3: 84, q4: null, s1: 81, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "c5", period: "5(A-D)", course: "Social Studies Grade 5", teacher: "Julia Arlington", teacherEmail: "jarlington@school.edu", room: "314/Artigo", q1: 88, q2: 81, q3: 85, q4: null, s1: 85, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "c6", period: "3B(A)", course: "Art Grade 5", teacher: "Michael H. Garrett", teacherEmail: "mgarrett@school.edu", room: "ART", q1: null, q2: null, q3: null, q4: null, s1: null, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "c7", period: "3B(B)", course: "Music Grade 5", teacher: "Virginia B. Williamson", teacherEmail: "vwilliamson@school.edu", room: "MUSIC", q1: null, q2: null, q3: null, q4: null, s1: null, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "c8", period: "3B(C)", course: "Physical Education Grade 5", teacher: "Catherine Old", teacherEmail: "cold@school.edu", room: "GYM", q1: null, q2: null, q3: null, q4: null, s1: null, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "c9", period: "3B(D)", course: "STEM Grade 5", teacher: "Jessica Gray", teacherEmail: "jgray@school.edu", room: "A126", q1: null, q2: null, q3: null, q4: null, s1: null, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
 ];
 
 const EMMA_CLASSES: ClassRow[] = [
-  { id: "e1", period: "1(A-D)", course: "Homeroom Grade 03", teacher: "Sarah Mitchell", room: "B205", q1: null, q2: null, q3: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "e2", period: "2(A-D)", course: "Language Arts Grade 3", teacher: "Sarah Mitchell", room: "B205", q1: 95, q2: 97, q3: 98, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "e3", period: "3(A-D)", course: "Math Grade 3", teacher: "Sarah Mitchell", room: "B205", q1: 92, q2: 94, q3: 96, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "e4", period: "4(A-D)", course: "Science Grade 3", teacher: "Sarah Mitchell", room: "B205", q1: 90, q2: 93, q3: 95, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
-  { id: "e5", period: "5(A-D)", course: "Social Studies Grade 3", teacher: "Sarah Mitchell", room: "B205", q1: 88, q2: 91, q3: 93, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "e1", period: "1(A-D)", course: "Homeroom Grade 03", teacher: "Sarah Mitchell", teacherEmail: "smitchell@school.edu", room: "B205", q1: null, q2: null, q3: null, q4: null, s1: null, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "e2", period: "2(A-D)", course: "Language Arts Grade 3", teacher: "Sarah Mitchell", teacherEmail: "smitchell@school.edu", room: "B205", q1: 95, q2: 97, q3: 98, q4: null, s1: 96, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "e3", period: "3(A-D)", course: "Math Grade 3", teacher: "Sarah Mitchell", teacherEmail: "smitchell@school.edu", room: "B205", q1: 92, q2: 94, q3: 96, q4: null, s1: 93, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "e4", period: "4(A-D)", course: "Science Grade 3", teacher: "Sarah Mitchell", teacherEmail: "smitchell@school.edu", room: "B205", q1: 90, q2: 93, q3: 95, q4: null, s1: 92, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
+  { id: "e5", period: "5(A-D)", course: "Social Studies Grade 3", teacher: "Sarah Mitchell", teacherEmail: "smitchell@school.edu", room: "B205", q1: 88, q2: 91, q3: 93, q4: null, s1: 90, s2: null, absences: 0, tardies: 0, lastWeek: ["", "", "", "", ""], thisWeek: ["", "", "", "", ""] },
 ];
 
 const CLASS_DATA: Record<string, ClassRow[]> = {
@@ -93,7 +97,11 @@ export default function GradesAttendancePage() {
 
   const gradedClasses = classes.filter(c => c.q1 !== null || c.q2 !== null || c.q3 !== null);
   const avgQ1 = gradedClasses.length ? Math.round(gradedClasses.reduce((s, c) => s + (c.q1 ?? 0), 0) / gradedClasses.filter(c => c.q1 !== null).length) : null;
+  const avgQ2 = gradedClasses.length ? Math.round(gradedClasses.reduce((s, c) => s + (c.q2 ?? 0), 0) / gradedClasses.filter(c => c.q2 !== null).length) : null;
+  const avgS1 = gradedClasses.filter(c => c.s1 !== null).length ? Math.round(gradedClasses.filter(c => c.s1 !== null).reduce((s, c) => s + c.s1!, 0) / gradedClasses.filter(c => c.s1 !== null).length) : null;
   const avgQ3 = gradedClasses.length ? Math.round(gradedClasses.reduce((s, c) => s + (c.q3 ?? 0), 0) / gradedClasses.filter(c => c.q3 !== null).length) : null;
+  const avgQ4 = gradedClasses.filter(c => c.q4 !== null).length ? Math.round(gradedClasses.filter(c => c.q4 !== null).reduce((s, c) => s + c.q4!, 0) / gradedClasses.filter(c => c.q4 !== null).length) : null;
+  const avgS2 = gradedClasses.filter(c => c.s2 !== null).length ? Math.round(gradedClasses.filter(c => c.s2 !== null).reduce((s, c) => s + c.s2!, 0) / gradedClasses.filter(c => c.s2 !== null).length) : null;
 
   const q3Classes = classes.filter(c => c.q3 !== null);
   const currentGPA = q3Classes.length
@@ -149,7 +157,10 @@ export default function GradesAttendancePage() {
                   <th rowSpan={2} className="text-left px-4 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-50 dark:bg-slate-800/50 min-w-[200px]">Course</th>
                   <th rowSpan={2} className="text-center px-3 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-50 dark:bg-slate-800/50">Q1</th>
                   <th rowSpan={2} className="text-center px-3 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-50 dark:bg-slate-800/50">Q2</th>
+                  <th rowSpan={2} className="text-center px-3 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-50 dark:bg-slate-800/50">S1</th>
                   <th rowSpan={2} className="text-center px-3 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-50 dark:bg-slate-800/50">Q3</th>
+                  <th rowSpan={2} className="text-center px-3 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-50 dark:bg-slate-800/50">Q4</th>
+                  <th rowSpan={2} className="text-center px-3 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-50 dark:bg-slate-800/50">S2</th>
                   <th rowSpan={2} className="text-center px-3 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-50 dark:bg-slate-800/50">Abs</th>
                   <th rowSpan={2} className="text-center px-3 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-50 dark:bg-slate-800/50">Tard</th>
                 </tr>
@@ -181,14 +192,20 @@ export default function GradesAttendancePage() {
                           {c.course}
                         </Link>
                         <div className="flex items-center gap-1.5 mt-0.5">
-                          <Mail className="w-3 h-3 text-blue-500" />
-                          <span className="text-xs text-gray-500 dark:text-gray-400">{c.teacher} · Rm {c.room}</span>
+                          <a href={`mailto:${c.teacherEmail}`} className="inline-flex items-center gap-1.5 hover:text-blue-600 dark:hover:text-blue-300 transition-colors group/email">
+                            <Mail className="w-3 h-3 text-blue-500 group-hover/email:text-blue-600 dark:group-hover/email:text-blue-300" />
+                            <span className="text-xs text-gray-500 dark:text-gray-400 group-hover/email:text-blue-600 dark:group-hover/email:text-blue-300 group-hover/email:underline">{c.teacher}</span>
+                          </a>
+                          <span className="text-xs text-gray-500 dark:text-gray-400">· Rm {c.room}</span>
                         </div>
                       </div>
                     </td>
                     <td className={`text-center px-3 py-3 text-sm font-bold ${gradeColor(c.q1)}`}>{c.q1 ?? "—"}</td>
                     <td className={`text-center px-3 py-3 text-sm font-bold ${gradeColor(c.q2)}`}>{c.q2 ?? "—"}</td>
+                    <td className={`text-center px-3 py-3 text-sm font-bold ${gradeColor(c.s1)}`}>{c.s1 ?? "—"}</td>
                     <td className={`text-center px-3 py-3 text-sm font-bold ${gradeColor(c.q3)}`}>{c.q3 ?? "—"}</td>
+                    <td className={`text-center px-3 py-3 text-sm font-bold ${gradeColor(c.q4)}`}>{c.q4 ?? "—"}</td>
+                    <td className={`text-center px-3 py-3 text-sm font-bold ${gradeColor(c.s2)}`}>{c.s2 ?? "—"}</td>
                     <td className={`text-center px-3 py-3 text-sm font-bold ${c.absences > 0 ? "text-[#1e3a8a] dark:text-blue-400" : "text-gray-300 dark:text-gray-600"}`}>{c.absences}</td>
                     <td className={`text-center px-3 py-3 text-sm font-bold ${c.tardies > 0 ? "text-[#1e3a8a] dark:text-blue-400" : "text-gray-300 dark:text-gray-600"}`}>{c.tardies}</td>
                   </tr>
@@ -198,8 +215,11 @@ export default function GradesAttendancePage() {
                   <td colSpan={11} className="px-4 py-3 sticky left-0 bg-gray-50 dark:bg-slate-800/50 z-10" />
                   <td className="px-4 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide text-right">Totals</td>
                   <td className={`text-center px-3 py-3 text-sm font-bold ${avgQ1 !== null ? "text-[#1e3a8a] dark:text-blue-400" : "text-gray-300 dark:text-gray-600"}`}>{avgQ1 ?? "—"}</td>
-                  <td className="text-center px-3 py-3 text-sm font-bold text-gray-300 dark:text-gray-600">—</td>
+                  <td className={`text-center px-3 py-3 text-sm font-bold ${avgQ2 !== null ? "text-[#1e3a8a] dark:text-blue-400" : "text-gray-300 dark:text-gray-600"}`}>{avgQ2 ?? "—"}</td>
+                  <td className={`text-center px-3 py-3 text-sm font-bold ${avgS1 !== null ? "text-[#1e3a8a] dark:text-blue-400" : "text-gray-300 dark:text-gray-600"}`}>{avgS1 ?? "—"}</td>
                   <td className={`text-center px-3 py-3 text-sm font-bold ${avgQ3 !== null ? "text-[#1e3a8a] dark:text-blue-400" : "text-gray-300 dark:text-gray-600"}`}>{avgQ3 ?? "—"}</td>
+                  <td className={`text-center px-3 py-3 text-sm font-bold ${avgQ4 !== null ? "text-[#1e3a8a] dark:text-blue-400" : "text-gray-300 dark:text-gray-600"}`}>{avgQ4 ?? "—"}</td>
+                  <td className={`text-center px-3 py-3 text-sm font-bold ${avgS2 !== null ? "text-[#1e3a8a] dark:text-blue-400" : "text-gray-300 dark:text-gray-600"}`}>{avgS2 ?? "—"}</td>
                   <td className={`text-center px-3 py-3 text-sm font-bold ${totalAbsences > 0 ? "text-[#1e3a8a] dark:text-blue-400" : "text-gray-300 dark:text-gray-600"}`}>{totalAbsences}</td>
                   <td className={`text-center px-3 py-3 text-sm font-bold ${totalTardies > 0 ? "text-[#1e3a8a] dark:text-blue-400" : "text-gray-300 dark:text-gray-600"}`}>{totalTardies}</td>
                 </tr>
@@ -217,7 +237,7 @@ export default function GradesAttendancePage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200 dark:border-slate-700">
-                  <th className="w-12" />
+                  <th className="w-12 bg-gray-50 dark:bg-slate-800/50" />
                   <th colSpan={5} className="text-center px-2 py-2 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest border-b border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/50">Last Week</th>
                   <th colSpan={5} className="text-center px-2 py-2 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest border-b border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/50">This Week</th>
                   <th className="text-center px-3 py-2 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest bg-gray-50 dark:bg-slate-800/50">25-26</th>
