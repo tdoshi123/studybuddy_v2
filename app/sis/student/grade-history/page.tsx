@@ -3,11 +3,6 @@
 import { useState } from "react";
 import { BarChart3 } from "lucide-react";
 
-const STUDENTS = [
-  { id: "1", name: "Alex Johnson", grade: "5th Grade" },
-  { id: "2", name: "Emma Johnson", grade: "3rd Grade" },
-];
-
 interface HistoryCourse {
   name: string;
   grade: string;
@@ -137,21 +132,15 @@ function getGradeColor(grade: string): string {
 }
 
 export default function GradeHistoryPage() {
-  const [selectedStudent, setSelectedStudent] = useState(STUDENTS[0]);
   const [selectedYear, setSelectedYear] = useState(0);
 
-  const years = HISTORY_DATA[selectedStudent.id] ?? [];
+  const years = HISTORY_DATA["1"] ?? [];
   const currentYear = years[selectedYear] ?? years[0];
 
   const gradedCourses = currentYear ? currentYear.courses.filter(c => letterToGPA(c.grade) >= 0) : [];
   const yearGPA = gradedCourses.length
     ? (gradedCourses.reduce((s, c) => s + letterToGPA(c.grade), 0) / gradedCourses.length).toFixed(2)
     : "—";
-
-  const handleStudentChange = (s: (typeof STUDENTS)[number]) => {
-    setSelectedStudent(s);
-    setSelectedYear(0);
-  };
 
   return (
     <div className="space-y-6">
@@ -166,28 +155,6 @@ export default function GradeHistoryPage() {
         <div className="text-right">
           <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">{currentYear?.label} GPA</p>
           <p className="text-2xl font-bold text-[#1e3a8a] dark:text-blue-400">{yearGPA}</p>
-        </div>
-      </div>
-
-      {/* Student tabs */}
-      <div className="overflow-x-auto pl-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex gap-6">
-          {STUDENTS.map((s) => {
-            const isActive = s.id === selectedStudent.id;
-            return (
-              <button
-                key={s.id}
-                onClick={() => handleStudentChange(s)}
-                className={`pb-3 px-1 text-sm font-medium transition-colors relative whitespace-nowrap ${
-                  isActive
-                    ? "text-[#3b82f6] border-b-2 border-[#3b82f6]"
-                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-                }`}
-              >
-                {s.name}
-              </button>
-            );
-          })}
         </div>
       </div>
 

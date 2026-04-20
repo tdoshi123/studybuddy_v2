@@ -190,7 +190,7 @@ const STATUS_CONFIG: Record<FormStatus, { label: string; icon: typeof Clock; col
 type FilterType = "all" | FormStatus;
 
 export default function StudentFormsPage() {
-  const [selectedStudent, setSelectedStudent] = useState(STUDENTS[0]);
+  const selectedStudent = STUDENTS[0];
   const [filter, setFilter] = useState<FilterType>("all");
   const [openForm, setOpenForm] = useState<StudentForm | null>(null);
   const [signing, setSigning] = useState(false);
@@ -280,31 +280,6 @@ export default function StudentFormsPage() {
             {pendingCount} awaiting signature
           </span>
         )}
-      </div>
-
-      {/* Student tabs */}
-      <div className="overflow-x-auto pl-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex gap-6">
-          {STUDENTS.map((s) => {
-            const isActive = s.id === selectedStudent.id;
-            return (
-              <button
-                key={s.id}
-                onClick={() => {
-                  setSelectedStudent(s);
-                  setFilter("all");
-                }}
-                className={`pb-3 px-1 text-sm font-medium transition-colors relative whitespace-nowrap ${
-                  isActive
-                    ? "text-[#3b82f6] border-b-2 border-[#3b82f6]"
-                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-                }`}
-              >
-                {s.name}
-              </button>
-            );
-          })}
-        </div>
       </div>
 
       {/* Status filters */}

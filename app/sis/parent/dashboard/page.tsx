@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import {
   GraduationCap,
-  Calendar,
   FileText,
   Mail,
   TrendingUp,
@@ -14,9 +13,6 @@ import {
   Bell,
   Users,
   BookOpen,
-  MessageSquare,
-  ClipboardCheck,
-  Bus,
 } from "lucide-react";
 
 function pctToGPA(pct: number): number {
@@ -148,29 +144,6 @@ export default function SisParentDashboardPage() {
                     </Link>
                   </div>
                 </div>
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-base font-semibold text-gray-700 dark:text-gray-300 mb-4">Quick actions</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[
-                { label: "Schedule", icon: Calendar, href: "/sis/parent/student-schedule", color: "bg-blue-50   dark:bg-blue-950/40   text-blue-600" },
-                { label: "Teacher Comments", icon: MessageSquare, href: "/sis/parent/teacher-comments", color: "bg-purple-50 dark:bg-purple-950/40 text-purple-600" },
-                { label: "Test Results", icon: ClipboardCheck, href: "/sis/parent/test-results", color: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600" },
-                { label: "Transportation", icon: Bus, href: "/sis/parent/transportation-info", color: "bg-amber-50  dark:bg-amber-950/40  text-amber-600" },
-              ].map(({ label, icon: Icon, href, color }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  className="flex flex-col items-center justify-center gap-2 py-5 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:shadow-md hover:border-gray-300 dark:hover:border-slate-600 transition-all"
-                >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color.split(" ").slice(0, 2).join(" ")}`}>
-                    <Icon className={`w-5 h-5 ${color.split(" ")[2]}`} />
-                  </div>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
-                </Link>
               ))}
             </div>
           </section>

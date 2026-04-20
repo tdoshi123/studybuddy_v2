@@ -4,11 +4,6 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { MessageSquare, Star, AlertTriangle, Award, ThumbsUp, Mail, X } from "lucide-react";
 
-const STUDENTS = [
-  { id: "1", name: "Alex Johnson", grade: "5th Grade" },
-  { id: "2", name: "Emma Johnson", grade: "3rd Grade" },
-];
-
 type CommentCategory = "achievement" | "behavior" | "progress" | "concern";
 
 interface TeacherComment {
@@ -137,11 +132,10 @@ const CATEGORY_CONFIG: Record<CommentCategory, { label: string; icon: typeof Sta
 type FilterType = "all" | CommentCategory;
 
 export default function TeacherCommentsPage() {
-  const [selectedStudent, setSelectedStudent] = useState(STUDENTS[0]);
   const [filter, setFilter] = useState<FilterType>("all");
   const [openComment, setOpenComment] = useState<TeacherComment | null>(null);
 
-  const allComments = COMMENT_DATA[selectedStudent.id] ?? [];
+  const allComments = COMMENT_DATA["1"] ?? [];
   const comments = filter === "all" ? allComments : allComments.filter(c => c.category === filter);
 
   const categoryCounts = allComments.reduce<Record<string, number>>((acc, c) => {
@@ -162,31 +156,6 @@ export default function TeacherCommentsPage() {
         <p className="text-sm text-gray-500 dark:text-gray-400">
           {allComments.length} comment{allComments.length !== 1 ? "s" : ""}
         </p>
-      </div>
-
-      {/* Student tabs */}
-      <div className="overflow-x-auto pl-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex gap-6">
-          {STUDENTS.map((s) => {
-            const isActive = s.id === selectedStudent.id;
-            return (
-              <button
-                key={s.id}
-                onClick={() => {
-                  setSelectedStudent(s);
-                  setFilter("all");
-                }}
-                className={`pb-3 px-1 text-sm font-medium transition-colors relative whitespace-nowrap ${
-                  isActive
-                    ? "text-[#3b82f6] border-b-2 border-[#3b82f6]"
-                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-                }`}
-              >
-                {s.name}
-              </button>
-            );
-          })}
-        </div>
       </div>
 
       {/* Category filters */}

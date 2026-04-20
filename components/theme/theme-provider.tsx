@@ -15,7 +15,6 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>("system");
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light");
-  const [mounted, setMounted] = useState(false);
 
   // Get the resolved theme based on system preference
   const getResolvedTheme = (themeValue: Theme): "light" | "dark" => {
@@ -47,13 +46,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     applyTheme(newTheme);
   };
 
-  // Initialize theme on mount
+  // Initialize theme on mount (after localStorage is available)
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") as Theme | null;
     const initialTheme = storedTheme || "system";
     setThemeState(initialTheme);
     applyTheme(initialTheme);
-    setMounted(true);
   }, []);
 
   // Listen for system theme changes when using "system" theme
@@ -69,10 +67,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);
 
-  // Prevent flash of incorrect theme
-  if (!mounted) {
-    return null;
-  }
+  // Always render children so the App Router subtree mounts consistently (returning null here
+  // caused "Rendered more hooks than during the previous render" in the router). Theme script
+  // in root layout still reduces flash before React hydrates.
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, resolvedTheme }}>

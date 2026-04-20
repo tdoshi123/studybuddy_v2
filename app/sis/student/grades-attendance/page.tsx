@@ -1,10 +1,9 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { BarChart3, Mail } from "lucide-react";
 import Link from "next/link";
 
+/** Logged-in student (demo). Parent portal keeps multi-child selection in its own page file. */
 const STUDENTS = [
   { id: "1", name: "Alex Johnson", grade: "5th Grade", initials: "AJ", color: "#1e3a8a" },
   { id: "2", name: "Emma Johnson", grade: "3rd Grade", initials: "EJ", color: "#166534" },
@@ -83,11 +82,8 @@ function gradeBg(g: number | null): string {
   return "bg-red-50 dark:bg-red-950/30";
 }
 
-function GradesAttendanceContent() {
-  const searchParams = useSearchParams();
-  const initialStudentId = searchParams.get("student");
-  const initialStudent = STUDENTS.find((s) => s.id === initialStudentId) ?? STUDENTS[0];
-  const [selectedStudent, setSelectedStudent] = useState(initialStudent);
+export default function GradesAttendancePage() {
+  const selectedStudent = STUDENTS[0];
   const classes = CLASS_DATA[selectedStudent.id] ?? [];
 
   const totalAbsences = classes.reduce((s, c) => s + c.absences, 0);
@@ -122,28 +118,8 @@ function GradesAttendanceContent() {
         </div>
       </div>
 
-      {/* Student tabs + table */}
+      {/* Table */}
       <section>
-        <div className="overflow-x-auto pl-4 border-b border-gray-200 dark:border-gray-700 mb-4">
-          <div className="flex gap-6">
-            {STUDENTS.map((s) => {
-              const isActive = s.id === selectedStudent.id;
-              return (
-                <button
-                  key={s.id}
-                  onClick={() => setSelectedStudent(s)}
-                  className={`pb-3 px-1 text-sm font-medium transition-colors relative whitespace-nowrap ${
-                    isActive
-                      ? "text-[#3b82f6] border-b-2 border-[#3b82f6]"
-                      : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-                  }`}
-                >
-                  {s.name}
-                </button>
-              );
-            })}
-          </div>
-        </div>
         <div className="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -184,7 +160,7 @@ function GradesAttendanceContent() {
                     <td className="px-4 py-3">
                       <div>
                         <Link
-                          href={`/sis/parent/grades-attendance/${c.id}?student=${selectedStudent.id}`}
+                          href={`/sis/student/grades-attendance/${c.id}`}
                           className="text-sm font-semibold text-[#1e3a8a] dark:text-blue-400 hover:underline"
                         >
                           {c.course}
@@ -308,20 +284,5 @@ function GradesAttendanceContent() {
         </div>
       </section>
     </div>
-  );
-}
-
-export default function GradesAttendancePage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="space-y-6 animate-pulse">
-          <div className="h-10 w-64 bg-gray-200 dark:bg-slate-700 rounded-lg" />
-          <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-xl" />
-        </div>
-      }
-    >
-      <GradesAttendanceContent />
-    </Suspense>
   );
 }

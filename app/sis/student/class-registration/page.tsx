@@ -70,7 +70,7 @@ const REGISTRATION_STATUS_CONFIG: Record<RegistrationStatus, { label: string; co
 };
 
 export default function ClassRegistrationPage() {
-  const [selectedStudent, setSelectedStudent] = useState(STUDENTS[0]);
+  const selectedStudent = STUDENTS[0];
   const [registered, setRegistered] = useState<Set<string>>(new Set());
   const [detailCourse, setDetailCourse] = useState<Course | null>(null);
   const [confirmDrop, setConfirmDrop] = useState<Course | null>(null);
@@ -114,31 +114,6 @@ export default function ClassRegistrationPage() {
             <p className="text-lg font-bold text-[#1e3a8a] dark:text-blue-400">{registeredCourses.length} classes · {totalCredits} credits</p>
           </div>
         )}
-      </div>
-
-      {/* Student tabs */}
-      <div className="overflow-x-auto pl-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex gap-6">
-          {STUDENTS.map((s) => {
-            const isActive = s.id === selectedStudent.id;
-            return (
-              <button
-                key={s.id}
-                onClick={() => {
-                  setSelectedStudent(s);
-                  setRegistered(new Set());
-                }}
-                className={`pb-3 px-1 text-sm font-medium transition-colors relative whitespace-nowrap ${
-                  isActive
-                    ? "text-[#3b82f6] border-b-2 border-[#3b82f6]"
-                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-                }`}
-              >
-                {s.name}
-              </button>
-            );
-          })}
-        </div>
       </div>
 
       {/* Registered courses summary */}

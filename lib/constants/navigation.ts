@@ -217,6 +217,12 @@ export const PARENT_NAV_ITEMS: NavItemConfig[] = [
   },
 ];
 
+/** Same structure as parent SIS nav; routes live under `/sis/student`. */
+export const SIS_STUDENT_NAV_ITEMS: NavItemConfig[] = PARENT_NAV_ITEMS.map((item) => ({
+  ...item,
+  href: item.href.replace("/sis/parent", "/sis/student"),
+}));
+
 export const SIDEBAR_CONFIG = {
   studentWidth: 72,
   teacherWidth: 84,
@@ -226,8 +232,15 @@ export const SIDEBAR_CONFIG = {
   secondaryBg: "#1e293b",
 } as const;
 
+/** SIS routes that share the same primary nav and width as `/sis/parent` (excludes `/sis/admin`). */
+export function usesSisParentSidebar(pathname: string | null): boolean {
+  if (!pathname?.startsWith("/sis/")) return false;
+  if (pathname.startsWith("/sis/admin")) return false;
+  return true;
+}
+
 export function getSidebarWidth(pathname: string | null): number {
-  if (pathname?.startsWith("/sis/parent")) return SIDEBAR_CONFIG.parentWidth;
+  if (usesSisParentSidebar(pathname)) return SIDEBAR_CONFIG.parentWidth;
   if (pathname?.startsWith("/lis/teacher")) return SIDEBAR_CONFIG.teacherWidth;
   return SIDEBAR_CONFIG.studentWidth;
 }
