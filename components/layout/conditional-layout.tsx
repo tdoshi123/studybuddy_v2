@@ -15,9 +15,7 @@ export function ConditionalLayout({ children }: { children: ReactNode }) {
                      pathname?.startsWith("/login") ||
                      pathname === "/onboarding";
 
-  const hasOwnLayout = pathname?.startsWith("/sis/admin");
-
-  if (isAuthPage || hasOwnLayout) {
+  if (isAuthPage) {
     return <>{children}</>;
   }
 

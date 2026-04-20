@@ -14,6 +14,21 @@ export function MobileHeader() {
   const sisParentStyle = usesSisParentSidebar(pathname);
 
   const getPageTitle = () => {
+    if (pathname?.startsWith("/sis/admin")) {
+      if (pathname === "/sis/admin/dashboard") return "Dashboard";
+      if (pathname === "/sis/admin/people") return "People";
+      if (pathname === "/sis/admin/attendance") return "Attendance";
+      if (pathname === "/sis/admin/health") return "Health";
+      if (pathname === "/sis/admin/school-enrollment") return "Enrollment";
+      if (pathname === "/sis/admin/courses-programs") return "Courses & Programs";
+      if (pathname === "/sis/admin/data-reporting") return "Data & Reporting";
+      if (pathname === "/sis/admin/district-management") return "District Mgmt";
+      if (pathname === "/sis/admin/system-management") return "System Mgmt";
+      if (pathname === "/sis/admin/applications") return "Applications";
+      if (pathname === "/sis/admin/settings") return "Settings";
+      return "Admin";
+    }
+
     const sisNorm =
       pathname?.startsWith("/sis/student")
         ? pathname.replace("/sis/student", "/sis/parent")
@@ -71,13 +86,15 @@ export function MobileHeader() {
         <div className="flex items-center gap-2">
           <Link
             href={
-              pathname?.startsWith("/sis/student")
-                ? "/sis/student/dashboard"
-                : sisParentStyle
-                  ? "/sis/parent/dashboard"
-                  : pathname?.startsWith("/lis/teacher")
-                    ? "/lis/teacher/inbox"
-                    : "/lis/student/inbox"
+              pathname?.startsWith("/sis/admin")
+                ? "/sis/admin/dashboard"
+                : pathname?.startsWith("/sis/student")
+                  ? "/sis/student/dashboard"
+                  : sisParentStyle
+                    ? "/sis/parent/dashboard"
+                    : pathname?.startsWith("/lis/teacher")
+                      ? "/lis/teacher/inbox"
+                      : "/lis/student/inbox"
             }
             className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-manipulation"
             aria-label="Notifications"

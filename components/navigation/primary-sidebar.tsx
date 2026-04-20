@@ -7,6 +7,7 @@ import {
   TEACHER_NAV_ITEMS,
   PARENT_NAV_ITEMS,
   SIS_STUDENT_NAV_ITEMS,
+  ADMIN_NAV_ITEMS,
   SIDEBAR_CONFIG,
   getSidebarWidth,
   usesSisParentSidebar,
@@ -16,14 +17,17 @@ export function PrimarySidebar() {
   const pathname = usePathname();
   const isTeacher = pathname?.startsWith("/lis/teacher");
   const sisParentStyle = usesSisParentSidebar(pathname);
+  const isAdminPortal = pathname?.startsWith("/sis/admin");
   const isStudentPortal = pathname?.startsWith("/sis/student");
-  const items = isStudentPortal
-    ? SIS_STUDENT_NAV_ITEMS
-    : sisParentStyle
-      ? PARENT_NAV_ITEMS
-      : isTeacher
-        ? TEACHER_NAV_ITEMS
-        : NAV_ITEMS;
+  const items = isAdminPortal
+    ? ADMIN_NAV_ITEMS
+    : isStudentPortal
+      ? SIS_STUDENT_NAV_ITEMS
+      : sisParentStyle
+        ? PARENT_NAV_ITEMS
+        : isTeacher
+          ? TEACHER_NAV_ITEMS
+          : NAV_ITEMS;
   const width = getSidebarWidth(pathname);
 
   const topItems = items.filter((item) => item.position !== "bottom");

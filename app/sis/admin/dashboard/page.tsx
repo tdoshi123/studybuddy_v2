@@ -16,10 +16,10 @@ const RECENT_EVENTS = [
   { id: "1", icon: Users,        color: "text-blue-600 bg-blue-50",      text: "3 new student accounts registered",          time: "1 hr ago"   },
   { id: "2", icon: GraduationCap,color: "text-purple-600 bg-purple-50",  text: "Mid-term grades published for all classes",  time: "3 hrs ago"  },
   { id: "3", icon: AlertCircle,  color: "text-amber-600 bg-amber-50",    text: "2 teacher accounts pending approval",        time: "Yesterday"  },
-  { id: "4", icon: CheckCircle2, color: "text-emerald-600 bg-emerald-50","text": "System backup completed successfully",      time: "Yesterday"  },
+  { id: "4", icon: CheckCircle2, color: "text-emerald-600 bg-emerald-50",text: "System backup completed successfully",       time: "Yesterday"  },
 ];
 
-export default function AdminPage() {
+export default function AdminDashboardPage() {
   const { user } = useUser();
   const firstName = user?.firstName ?? "Admin";
 

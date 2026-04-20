@@ -16,6 +16,16 @@ import {
   Bus,
   School,
   MessageSquare,
+  Users,
+  GraduationCap,
+  Shield,
+  HeartPulse,
+  UserPlus,
+  Layers,
+  Database,
+  Building2,
+  Cog,
+  AppWindow,
 } from "lucide-react";
 import { NavItemConfig } from "@/lib/types/navigation";
 
@@ -223,6 +233,86 @@ export const SIS_STUDENT_NAV_ITEMS: NavItemConfig[] = PARENT_NAV_ITEMS.map((item
   href: item.href.replace("/sis/parent", "/sis/student"),
 }));
 
+export const ADMIN_NAV_ITEMS: NavItemConfig[] = [
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: Home,
+    href: "/sis/admin/dashboard",
+    position: "top",
+  },
+  {
+    id: "people",
+    label: "People",
+    icon: Users,
+    href: "/sis/admin/people",
+    position: "top",
+  },
+  {
+    id: "attendance",
+    label: "Attendance",
+    icon: CalendarCheck,
+    href: "/sis/admin/attendance",
+    position: "top",
+  },
+  {
+    id: "health",
+    label: "Health",
+    icon: HeartPulse,
+    href: "/sis/admin/health",
+    position: "top",
+  },
+  {
+    id: "school-enrollment",
+    label: "School Enrollment",
+    icon: UserPlus,
+    href: "/sis/admin/school-enrollment",
+    position: "top",
+  },
+  {
+    id: "courses-programs",
+    label: "Courses & Programs",
+    icon: Layers,
+    href: "/sis/admin/courses-programs",
+    position: "top",
+  },
+  {
+    id: "data-reporting",
+    label: "Data & Reporting",
+    icon: Database,
+    href: "/sis/admin/data-reporting",
+    position: "top",
+  },
+  {
+    id: "district-management",
+    label: "District Management",
+    icon: Building2,
+    href: "/sis/admin/district-management",
+    position: "top",
+  },
+  {
+    id: "system-management",
+    label: "System Management",
+    icon: Cog,
+    href: "/sis/admin/system-management",
+    position: "top",
+  },
+  {
+    id: "applications",
+    label: "Applications",
+    icon: AppWindow,
+    href: "/sis/admin/applications",
+    position: "top",
+  },
+  {
+    id: "settings",
+    label: "Settings",
+    icon: Settings,
+    href: "/sis/admin/settings",
+    position: "bottom",
+  },
+];
+
 export const SIDEBAR_CONFIG = {
   studentWidth: 72,
   teacherWidth: 84,
@@ -232,10 +322,9 @@ export const SIDEBAR_CONFIG = {
   secondaryBg: "#1e293b",
 } as const;
 
-/** SIS routes that share the same primary nav and width as `/sis/parent` (excludes `/sis/admin`). */
+/** SIS routes that share the wide text-label sidebar style (parent, student, admin). */
 export function usesSisParentSidebar(pathname: string | null): boolean {
   if (!pathname?.startsWith("/sis/")) return false;
-  if (pathname.startsWith("/sis/admin")) return false;
   return true;
 }
 

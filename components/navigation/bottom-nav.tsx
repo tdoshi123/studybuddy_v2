@@ -7,6 +7,7 @@ import {
   TEACHER_NAV_ITEMS,
   PARENT_NAV_ITEMS,
   SIS_STUDENT_NAV_ITEMS,
+  ADMIN_NAV_ITEMS,
   usesSisParentSidebar,
 } from "@/lib/constants/navigation";
 import { useNotifications } from "@/lib/hooks";
@@ -16,15 +17,18 @@ export function BottomNav() {
   const notifications = useNotifications();
   const isTeacher = pathname?.startsWith("/lis/teacher");
   const sisParentStyle = usesSisParentSidebar(pathname);
+  const isAdminPortal = pathname?.startsWith("/sis/admin");
   const isStudentPortal = pathname?.startsWith("/sis/student");
 
-  const allItems = isStudentPortal
-    ? SIS_STUDENT_NAV_ITEMS
-    : sisParentStyle
-      ? PARENT_NAV_ITEMS
-      : isTeacher
-        ? TEACHER_NAV_ITEMS
-        : NAV_ITEMS;
+  const allItems = isAdminPortal
+    ? ADMIN_NAV_ITEMS
+    : isStudentPortal
+      ? SIS_STUDENT_NAV_ITEMS
+      : sisParentStyle
+        ? PARENT_NAV_ITEMS
+        : isTeacher
+          ? TEACHER_NAV_ITEMS
+          : NAV_ITEMS;
   const mobileNavItems = allItems.filter(
     (item) => item.position !== "bottom" && item.id !== "account"
   ).slice(0, 5);
